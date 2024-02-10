@@ -2,6 +2,7 @@ import * as React from 'react';
 import { styled } from '@mui/joy/styles';
 import Sheet from '@mui/joy/Sheet';
 import Grid from '@mui/joy/Grid';
+import { SearchBar } from '../components/SearchBar';
 
 const Item = styled(Sheet)(({ theme }) => ({
   backgroundColor:
@@ -32,9 +33,7 @@ export function NavBar() {
       <Grid xs />
 
       {/* Search */}
-      <Grid xs={3} style={{height: '50px'}}>
-        <Item>xs</Item>
-      </Grid>
+      <SearchBar />
     </Grid>
   );
 }

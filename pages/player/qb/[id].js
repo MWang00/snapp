@@ -3,6 +3,9 @@ import RadarChart from 'react-svg-radar-chart';
 import 'react-svg-radar-chart/build/css/index.css'
 import { Grid, Stack } from "@mui/material";
 import styles from "../../../styles/Home.module.css"
+import CircularProgress from '@mui/joy/CircularProgress';
+import Typography from '@mui/joy/Typography';
+import { extendTheme } from '@mui/joy/styles';
 
 const colors = ["#e739d5", "#e74646", "#e7a539", "#49cb3c", "#983df0"]
 
@@ -98,7 +101,22 @@ export default function PlayerView() {
       console.log(similarPlayers)
     }, []);
 
-
+    // doesnt work
+    extendTheme({
+      components: {
+        JoyCircularProgress: {
+          styleOverrides: {
+            root: ({ ownerState, theme }) => ({
+              ...(ownerState.size === 'xl' && {
+                '--Icon-fontSize': '2rem',
+                height: '10000',
+                fontSize: theme.vars.fontSize.xl,
+              }),
+            }),
+          },
+        },
+      },
+    });
 
     return(
         <div>
@@ -126,13 +144,16 @@ export default function PlayerView() {
               {
                 similarPlayers.map((p, i) => (
                   <div style={{marginTop: "2.5%", marginBottom: "2.5%", marginLeft: "8%"}} key={`div${i}`}>
-                  <button className={styles.playerButton} key={`button${i}`} id={i} style={{color: colorState[i], backgroundColor: "transparent", borderStyle: "solid", borderColor: colorState[i]}} onClick={onSimilarPlayerClick}>
+                  <button className={styles.playerButton} key={`button${i}`} id={i} style={{color: colorState[i], cursor: 'pointer', backgroundColor: "transparent", borderStyle: "solid", borderColor: colorState[i]}} onClick={onSimilarPlayerClick}>
                     {p.name}
                   </button>
                   </div>
                 ))
               }
             </div>
+            <div style={{ borderStyle:"solid", borderColor: "lightgray", borderRadius: "5px", backgroundColor: "white", paddingBottom: "5%", marginTop: "2%"}}>
+              <Speedometer name={"QBR"} number={player.qbr} />
+              </div>
           </Grid>
         </Grid>
         </div>
@@ -161,4 +182,18 @@ export default function PlayerView() {
     });
     return playerObj;
   }
+}
+
+function Speedometer({number, name}) {
+  return <Stack direction={"column"}>
+    <div>
+      <h1 style={{ marginLeft: "5%" }}>NFL Stats</h1>
+      <CircularProgress style={{ marginLeft: "5%" }} size={"lg"} determinate value={(number / 158.3) * 100}>
+        <Typography>{number}</Typography>
+      </CircularProgress>
+    </div>
+    <div style={{ marginLeft: "9%", marginTop: "2%" }}>
+      {name}
+    </div>
+  </Stack>;
 }

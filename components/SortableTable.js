@@ -93,7 +93,7 @@ export function SortableTable() {
 
   return (
     <div>
-      <Sheet sx={{ height: '75vh', overflow: 'auto', borderRadius: '40px', boxShadow: 3 }}>
+      <Sheet sx={{ height: '75vh', overflow: 'auto', borderRadius: '20px', boxShadow: 3 }}>
         <Table aria-label="playertable" stickyHeader stickyFooter sx={{ borderRadius: '8px', overflow: 'hidden' }}>
           <thead>
             <tr>

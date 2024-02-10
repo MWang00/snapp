@@ -103,6 +103,7 @@
   padding-bottom: 2%;
 }
 
-.playerButton :hover {
+.playerButton:hover {
   border-color: red;
+  background-color: blue;
 }
