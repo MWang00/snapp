@@ -3,6 +3,9 @@ import RadarChart from 'react-svg-radar-chart';
 import 'react-svg-radar-chart/build/css/index.css'
 import { Grid, Stack } from "@mui/material";
 import styles from "../../../styles/Home.module.css"
+import CircularProgress from '@mui/joy/CircularProgress';
+import Typography from '@mui/joy/Typography';
+import { extendTheme } from '@mui/joy/styles';
 
 const colors = ["#e739d5", "#e74646", "#e7a539", "#49cb3c", "#983df0"]
 
@@ -98,15 +101,33 @@ export default function PlayerView() {
       console.log(similarPlayers)
     }, []);
 
-
+    // doesnt work
+    extendTheme({
+      components: {
+        JoyCircularProgress: {
+          styleOverrides: {
+            root: ({ ownerState, theme }) => ({
+              ...(ownerState.size === 'xl' && {
+                '--Icon-fontSize': '2rem',
+                height: '10000',
+                fontSize: theme.vars.fontSize.xl,
+              }),
+            }),
+          },
+        },
+      },
+    });
 
     return(
         <div>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} style={{marginTop: "1%"}}>
           <Grid item xs={3}>
           <div style={{ marginLeft: "10%" }}>
           <h1>{player.name}</h1>
-          </div>  
+          <CircularProgress /*style={{height: "1000"}}*/ size={"lg"} determinate value={(player.qbr/158.3) * 100}>
+              <Typography>{player.qbr}</Typography>
+          </CircularProgress>
+          </div>
           </Grid>
           <Grid item xs={5}>
             <div style={{ borderStyle:"solid", borderColor: "lightgray", borderRadius: "5px", backgroundColor: "white" }}>
@@ -123,7 +144,7 @@ export default function PlayerView() {
               {
                 similarPlayers.map((p, i) => (
                   <div style={{marginTop: "2.5%", marginBottom: "2.5%", marginLeft: "8%"}} key={`div${i}`}>
-                  <button className={styles.playerButton} key={`button${i}`} id={i} style={{color: colorState[i], backgroundColor: "transparent", borderStyle: "solid", borderColor: colorState[i]}} onClick={onSimilarPlayerClick}>
+                  <button className={styles.playerButton} key={`button${i}`} id={i} style={{color: colorState[i], cursor: 'pointer', backgroundColor: "transparent", borderStyle: "solid", borderColor: colorState[i]}} onClick={onSimilarPlayerClick}>
                     {p.name}
                   </button>
                   </div>
