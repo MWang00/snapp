@@ -91,3 +91,18 @@
     flex-direction: column;
   }
 }
+
+.playerButton {
+  border-color: black;
+  border-style: "solid";
+  border-radius: 5px;
+  font-size: large;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
+.playerButton :hover {
+  border-color: red;
+}
