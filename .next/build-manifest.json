@@ -26,6 +26,19 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
+<<<<<<< HEAD
+=======
+    ],
+    "/player/qb/[id]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/player/qb/[id].js"
+    ],
+    "/players": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/players.js"
+>>>>>>> 554c60e5e7fd6b99030c0e3565d515a7d89f6f53
     ]
   },
   "ampFirstPages": []

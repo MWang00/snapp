@@ -3,5 +3,10 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
+<<<<<<< HEAD
   "/player/qb/[id]": "pages/player/qb/[id].js"
+=======
+  "/player/qb/[id]": "pages/player/qb/[id].js",
+  "/players": "pages/players.js"
+>>>>>>> 554c60e5e7fd6b99030c0e3565d515a7d89f6f53
 }
