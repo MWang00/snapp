@@ -152,7 +152,21 @@ export default function PlayerView() {
               }
             </div>
             <div style={{ borderStyle:"solid", borderColor: "lightgray", borderRadius: "5px", backgroundColor: "white", paddingBottom: "5%", marginTop: "2%"}}>
+            <h1 style={{ marginLeft: "5%" }}>NFL Stats</h1>
+              <Grid container style={{marginLeft: "5%"}}>
+              <Grid item xs={6}>
               <Speedometer name={"QBR"} number={player.qbr} />
+              </Grid>
+              <Grid item xs={6}>
+              <Speedometer name={"QBR"} number={player.qbr} />
+              </Grid>
+              <Grid item xs={6} style={{paddingTop:"9%"}}>
+              <Speedometer name={"QBR"} number={player.qbr} />
+              </Grid>
+              <Grid item xs={6} style={{paddingTop:"9%"}}>
+              <Speedometer name={"QBR"} number={player.qbr} />
+              </Grid>
+              </Grid>
               </div>
           </Grid>
         </Grid>
@@ -185,9 +199,8 @@ export default function PlayerView() {
 }
 
 function Speedometer({number, name}) {
-  return <Stack direction={"column"}>
+  return <div>
     <div>
-      <h1 style={{ marginLeft: "5%" }}>NFL Stats</h1>
       <CircularProgress style={{ marginLeft: "5%" }} size={"lg"} determinate value={(number / 158.3) * 100}>
         <Typography>{number}</Typography>
       </CircularProgress>
@@ -195,5 +208,5 @@ function Speedometer({number, name}) {
     <div style={{ marginLeft: "9%", marginTop: "2%" }}>
       {name}
     </div>
-  </Stack>;
+    </div>;
 }
