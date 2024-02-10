@@ -1,17 +1,7 @@
-// createData('1', 159, 6.0, 24, 4.0),
-// createData('2', 237, 9.0, 37, 4.3),
-// createData('3', 262, 16.0, 24, 6.0),
-// createData('4', 305, 3.7, 67, 4.3),
-// createData('5', 356, 16.0, 49, 3.9),
-// createData('6', 159, 6.0, 24, 4.0),
-// createData('7', 237, 9.0, 37, 4.3),
-// createData('8', 262, 16.0, 24, 6.0),
-// createData('9', 305, 3.7, 67, 4.3),
-// createData('10', 356, 16.0, 49, 3.9)
 import React, { useState } from 'react';
 import Table from '@mui/joy/Table';
 import Sheet from '@mui/joy/Sheet';
-import styles from '../styles/SortableTable.module.css';
+// import styles from '../styles/SortableTable.module.css';
 
 function createData(name, school, position, score, similarplayer) {
   return { name, school, position, score, similarplayer };
@@ -82,18 +72,19 @@ export function SortableTable() {
   };
 
   const SortIndicator = ({ column }) => {
-    // Only display the sort indicator if order is truthy
     return orderBy === column && order ? (order === 'asc' ? ' ▼' : ' ▲') : '';
   };
   const getColumnStyle = (columnName) => ({
     textAlign: 'center',
     cursor: 'pointer',
-    backgroundColor: orderBy === columnName ? '#e0e0e0' : 'transparent', // Change color if column is selected
+    backgroundColor: orderBy === columnName ? '#e0e0e0' : 'transparent',
   });
 
   return (
     <div>
-      <Sheet sx={{ height: '75vh', overflow: 'auto', borderRadius: '20px', boxShadow: 3 }}>
+      
+      {/* borderColor:'lightgray', borderStyle:'solid' */}
+      <Sheet sx={{ height: '75vh', overflow: 'auto', borderRadius: '20px', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)'}}>
         <Table aria-label="playertable" stickyHeader stickyFooter sx={{ borderRadius: '8px', overflow: 'hidden' }}>
           <thead>
             <tr>
