@@ -188,7 +188,7 @@ export default function PlayerView() {
 
     playerCategories.forEach((category, i) => {
       const { name, scale } = category;
-      playerObj[name] = dataAvg[i] / scale;
+      playerObj[name] = Math.max(dataAvg[i] / scale, 0);
     });
     return playerObj;
   }

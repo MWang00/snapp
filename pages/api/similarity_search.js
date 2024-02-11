@@ -8,6 +8,13 @@ const dimMapping = {
     "def": 8
 }
 
+const posMapping = {
+    "qb": "qbr",
+    "rb": "rr",
+    "wr": "rr",
+    "def": "dr"
+}
+
 export default async function handler(req, res) {
     let out = new Array();
     const { playerName, playerStats, position } = req.body;
@@ -36,14 +43,21 @@ export default async function handler(req, res) {
                 '$vectorSearch': {
                     'index': 'vector_index',
                     'path': 'embedding',
-                    'filter': {
-                        'position': {
-                            '$eq': [position]
+                    'filter': '$and' [
+                        {
+                            'position': {
+                                '$eq': position
+                            }
+                        },
+                        {
+                            'inNfl': {
+                                '$eq': true
+                            }
                         }
-                    },
+                    ],
                     "queryVector": embeddingVector,
                     "limit": 5,
-                    "numCandidates": 200
+                    "numCandidates": 5392
                 }
             }
         ];
@@ -55,7 +69,12 @@ export default async function handler(req, res) {
                     'path': 'embedding',
                     "limit": 5,
                     "queryVector": embeddingVector,
-                    "numCandidates": 200
+                    "numCandidates": 5392,
+                    'filter': {
+                        'inNfl': {
+                            '$eq': true
+                        }
+                    }
                 },
             }
         ]
@@ -65,7 +84,12 @@ export default async function handler(req, res) {
     out = new Array();
     await result.forEach((doc) => {
         doc.embedding = handleAvg(doc.embedding, dimMapping[position]); 
-        out.push(doc)
+        const obj = {
+            stats: doc.embedding,
+            name: doc.name
+        }
+        obj[posMapping[position]] = parseFloat(doc.nfl)
+        out.push(obj)
     });
     res.status(200).json(out)
 }
