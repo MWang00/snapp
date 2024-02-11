@@ -106,21 +106,7 @@ export default function PlayerView() {
     }, []);
 
     // doesnt work
-    extendTheme({
-      components: {
-        JoyCircularProgress: {
-          styleOverrides: {
-            root: ({ ownerState, theme }) => ({
-              ...(ownerState.size === 'xl' && {
-                '--Icon-fontSize': '2rem',
-                height: '10000',
-                fontSize: theme.vars.fontSize.xl,
-              }),
-            }),
-          },
-        },
-      },
-    });
+    
 
     return(
         <div>
