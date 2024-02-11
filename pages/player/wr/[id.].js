@@ -109,8 +109,8 @@ export default function PlayerView() {
     return(
         <div>
         <NavBar router={router}/>
-        <Grid container spacing={2} style={{marginTop: "2%"}}>
-          <Grid item xs={3} style={{ borderStyle:"solid", borderColor: "lightgray", borderRadius: "5px", backgroundColor: "white", marginTop: "1%" }}>
+        <Grid container spacing={2} style={{paddingLeft: "7%", marginTop: "2%"}}>
+          <Grid item xs={3} style={{ borderRadius: "20px", boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white", marginTop: "1%" }}>
           <div style={{ marginLeft: "10%" }}>
           <h1>{player.name}</h1>
           <img src={player.src} width={225} style={{borderRadius: "5px", borderStyle: "solid", borderColor: "lightgray"}}></img>
@@ -118,8 +118,8 @@ export default function PlayerView() {
           <h3>College: <span style={{fontWeight: "normal"}}>{player.college}</span></h3>
           </div>
           </Grid>
-          <Grid item xs={5}>
-            <div style={{ borderStyle:"solid", borderColor: "lightgray", borderRadius: "5px", backgroundColor: "white" }}>
+          <Grid item xs={5.5}>
+            <div style={{ borderRadius: "20px", boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white" }}>
               <RadarChart
                 captions={captions}
                 data={data}
@@ -128,7 +128,7 @@ export default function PlayerView() {
             </div>
           </Grid>
           <Grid item xs={2.5}>
-            <div style={{ borderStyle:"solid", borderColor: "lightgray", borderRadius: "5px", backgroundColor: "white", paddingBottom: "5%" }}>
+            <div style={{ borderRadius: "20px", boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white", paddingBottom: "7%", paddingTop: "2%", paddingLeft:"2%" }}>
               <h2 style={{marginLeft: "5%"}}>Similar Players</h2>
               {
                 similarPlayers.map((p, i) => (
@@ -140,9 +140,9 @@ export default function PlayerView() {
                 ))
               }
             </div>
-            <div style={{ borderStyle:"solid", borderColor: "lightgray", borderRadius: "5px", backgroundColor: "white", paddingBottom: "5%", marginTop: "2%"}}>
-            <h1 style={{ marginLeft: "5%" }}>NFL Stats</h1>
-              <Grid container style={{marginLeft: "5%"}}>
+            <div style={{ borderRadius: '20px', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white", paddingBottom: "5%", marginTop: "2%"}}>
+            <h1 style={{ paddingTop: "5%", textAlign: "center" }}>NFL Stats</h1>
+              <Grid container style={{ textAlign: "center", paddingRight: "5%" }}>
               <Grid item xs={6}>
               <Speedometer name={"RR"} number={player.rr} />
               </Grid>
