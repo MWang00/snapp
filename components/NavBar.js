@@ -24,13 +24,15 @@ export function NavBar({ router }) {
       {/* logo to direct to the landing page */}
       <Grid xs={2} style={{height: '50px'}}>
         <a href={"/"}>
-            <img src="https://media.discordapp.net/attachments/672178050388983835/1206046044551651419/snapp.png?ex=65da94e8&is=65c81fe8&hm=525b899879d3228d64d159e1d23f975598ecc9b3a023ac60c78a10b626fed90b&=&format=webp&quality=lossless&width=2268&height=664" alt="TEAMNAME" />
+            <img src="https://media.discordapp.net/attachments/1162065201152139294/1206072179209543690/snapp.png?ex=65daad3f&is=65c8383f&hm=36866481f9d59dce824e06d88b9f48d41f023add4ba90f400f6a31315785b46f&=&format=webp&quality=lossless&width=2268&height=664" alt="SNAPP" />
         </a>
       </Grid>
     
       {/* icon to direct to table page */}
       <Grid xs={1} style={{height: '50px'}}>
-        <Item onClick={handleTableRoute}>TABLE</Item>
+        <a href={"/players"}>
+          <h3 style={{marginBottom: "15%"}}>Players</h3>
+        </a>
       </Grid>
 
       {/* padding */}
