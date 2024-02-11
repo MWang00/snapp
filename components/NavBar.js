@@ -24,7 +24,7 @@ export function NavBar({ router }) {
       {/* logo to direct to the landing page */}
       <Grid xs={2} style={{height: '50px'}}>
         <a href={"/"}>
-            <img src="https://imgur.com/CfS9Hqy.png" alt="TEAMNAME" />
+            <img src="https://media.discordapp.net/attachments/672178050388983835/1206046044551651419/snapp.png?ex=65da94e8&is=65c81fe8&hm=525b899879d3228d64d159e1d23f975598ecc9b3a023ac60c78a10b626fed90b&=&format=webp&quality=lossless&width=2268&height=664" alt="TEAMNAME" />
         </a>
       </Grid>
     
