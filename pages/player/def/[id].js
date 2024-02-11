@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { NavBar } from "../../../components/NavBar";
 import { Speedometer } from "../../../components/Speedometer";
 
-const colors = ["red", "green", "#eb9534", "purple", "pink"]
+const colors = ["#e739d5", "#e74646", "#e7a539", "#49cb3c", "#983df0"]
 
 export default function PlayerView() {
     const router = useRouter()
