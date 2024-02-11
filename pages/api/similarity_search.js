@@ -15,6 +15,13 @@ const posMapping = {
     "def": "dr"
 }
 
+const colMappping = {
+    "qb": "qb",
+    "def": "def",
+    "rb": "rb/wr",
+    "wr": "rb/wr"
+}
+
 export default async function handler(req, res) {
     let out = new Array();
     const { playerName, playerStats, position } = req.body;
@@ -24,26 +31,15 @@ export default async function handler(req, res) {
     await client.connect();
     console.log("connected")
     const database = client.db("football-player-mappings");
-    let col;
-    switch (position) {
-        case "qb":
-            col = database.collection("qb");
-            break;
-        case "wr" | "rb":
-            col = database.collection("rb/wr");
-            break;
-        default:
-            col = database.collection("def");
-    }
+    const col = database.collection(colMappping[position])
     let agg;
-
     if (position === "wr" || position === "rb")  {
         agg = [
             {
                 '$vectorSearch': {
                     'index': 'vector_index',
                     'path': 'embedding',
-                    'filter': '$and' [
+                    'filter': {'$and': [
                         {
                             'position': {
                                 '$eq': position
@@ -54,7 +50,7 @@ export default async function handler(req, res) {
                                 '$eq': true
                             }
                         }
-                    ],
+                    ]},
                     "queryVector": embeddingVector,
                     "limit": 5,
                     "numCandidates": 5392
