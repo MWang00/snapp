@@ -57,10 +57,16 @@ function stableSort(array, comparator) {
   return stabilizedTableCellis.map((el) => el[0]);
 }
 
-export function SortableTable() {
+export function SortableTable({height, number}) {
   const [order, setOrder] = useState(null); // Initialize order state as null
   const [orderBy, setOrderBy] = useState('');
-  const [rows, setRows] = useState(initialRows);
+  let rows, setRows;
+  if (number == 0) {
+    [rows, setRows] = useState(initialRows.slice(0, initialRows.length));
+  } else {
+    [rows, setRows] = useState(initialRows.slice(0, number));
+  }
+  // const [rows, setRows] = useState(initialRows.slice(0, initialRows.length));
   const [selectedColumn, setSelectedColumn] = useState(null);
 
   const handleSort = (property) => {
@@ -85,7 +91,7 @@ export function SortableTable() {
     <div>
       
       {/* borderColor:'lightgray', borderStyle:'solid' */}
-      <Paper sx={{ height: '75vh', overflow: 'auto', borderRadius: '20px', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)' }}>
+      <Paper sx={{ height: height, overflow: 'auto', borderRadius: '20px', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)' }}>
       <div style={{ borderRadius: '8px'}}>
         <Table aria-label="sticky table" stickyHeader>
           <TableHead>

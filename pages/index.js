@@ -46,6 +46,9 @@ export default function Home() {
       <div>
         <h2></h2>
       </div>
+      <div style={{marginLeft: "20%", marginRight: "20%"}}>
+        <SortableTable height="30vh" number="5"/>
+      </div>
       </div>
     </div>
     );
