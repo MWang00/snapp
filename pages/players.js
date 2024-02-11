@@ -1,10 +1,9 @@
-import * as React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SortableTable } from '../components/SortableTable';
 import { NavBar } from '../components/NavBar';
 import {LinearGradient} from "react-text-gradients"
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+
 
 function createData(name, school, position, score, similarplayer) {
   return { name, school, position, score, similarplayer };
@@ -34,26 +33,27 @@ const initialRows = [
 ];
 
 export default function players() {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [rows, setRows] = useState(initialRows.slice(0, initialRows.length));
-    useEffect(() => {
-      console.log(rows)
-    }, []);
-    const handleSearchChange = (event) => {
-      if (event.target.value != "") {
-        setRows(initialRows.filter((row) => row.name.startsWith(event.target.value)));
-      } else {
-        setRows(initialRows)
-      }
-      setSearchQuery(event.target.value);
-    };
-    return (
-        <div>
-          <NavBar searchQuery={searchQuery} handleSearchChange={handleSearchChange} />
-          <div style={{width: "80%", marginLeft: "10%", textAlign: "center" }}>
-            <h1><LinearGradient gradient={["to right", "#f54242 ,#b50b02"]}>Player</LinearGradient> Rankings</h1>
-            <SortableTable height="75vh" rows={rows} setRows={setRows}/>
-          </div>
-        </div>
-      );
+  const router = useRouter();
+  const { search } = router.query;
+  const [rows, setRows] = useState(initialRows);
+
+  useEffect(() => {
+    if (search) {
+      const searchLowercase = search.toLowerCase();
+      const filteredRows = initialRows.filter(row => row.name.toLowerCase().startsWith(searchLowercase));
+      setRows(filteredRows);
+    } else {
+      setRows(initialRows);
+    }
+  }, [search]);
+
+  return (
+    <div>
+      <NavBar/>
+      <div style={{width: "80%", marginLeft: "10%", textAlign: "center" }}>
+        <h1><LinearGradient gradient={["to right", "#f54242 ,#b50b02"]}>Player Rankings</LinearGradient></h1>
+        <SortableTable height="75vh" rows={rows} setRows={setRows}/>
+      </div>
+    </div>
+  );
 }
