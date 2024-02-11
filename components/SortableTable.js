@@ -85,7 +85,8 @@ export function SortableTable() {
       
       {/* borderColor:'lightgray', borderStyle:'solid' */}
       <Sheet sx={{ height: '75vh', overflow: 'auto', borderRadius: '20px', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)'}}>
-        <Table aria-label="playertable" stickyHeader stickyFooter sx={{ borderRadius: '8px', overflow: 'hidden' }}>
+      <div style={{ borderRadius: '8px'}}>
+        <Table aria-label="playertable" stickyHeader stickyFooter>
           <thead>
             <tr>
               <th style={getColumnStyle('name')} onClick={() => handleSort('name')}>Player<SortIndicator column="name" /></th>
@@ -111,6 +112,7 @@ export function SortableTable() {
             ))}
           </tbody>
         </Table>
+      </div>
       </Sheet>
     </div>
   );

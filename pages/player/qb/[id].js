@@ -126,7 +126,7 @@ export default function PlayerView() {
         <div>
         <NavBar router={router}/>
         <Grid container spacing={2} style={{marginLeft: "6%", marginTop: "2%"}}>
-          <Grid item xs={3} style={{ borderStyle:"solid", borderColor: "lightgray", borderRadius: "5px", backgroundColor: "white", marginTop: "1%" }}>
+          <Grid item xs={3} style={{ borderRadius: "20px", boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white", marginTop: "1%" }}>
           <div style={{ marginLeft: "10%" }}>
           <h1>{player.name}</h1>
           <img src={player.src} width={225} style={{borderRadius: "5px", borderStyle: "solid", borderColor: "lightgray"}}></img>
@@ -135,7 +135,7 @@ export default function PlayerView() {
           </div>  
           </Grid>
           <Grid item xs={5}>
-            <div style={{ borderStyle:"solid", borderColor: "lightgray", borderRadius: "5px", backgroundColor: "white" }}>
+            <div style={{ borderRadius: "20px", boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white" }}>
               <RadarChart
                 captions={captions}
                 data={data}
@@ -144,7 +144,7 @@ export default function PlayerView() {
             </div>
           </Grid>
           <Grid item xs={2.5}>
-            <div style={{ borderStyle:"solid", borderColor: "lightgray", borderRadius: "5px", backgroundColor: "white", paddingBottom: "5%" }}>
+            <div style={{ borderRadius: "20px", boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white", paddingBottom: "5%", paddingTop: "%"}}>
               <h2 style={{marginLeft: "5%"}}>Similar Players</h2>
               {
                 similarPlayers.map((p, i) => (
