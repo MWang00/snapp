@@ -1,13 +1,10 @@
 import {useState, useEffect} from "react";
 import RadarChart from 'react-svg-radar-chart';
 import 'react-svg-radar-chart/build/css/index.css'
-import { Grid, Stack } from "@mui/material";
+import { Grid} from "@mui/material";
 import styles from "../../../styles/Home.module.css"
-import CircularProgress from '@mui/joy/CircularProgress';
-import Typography from '@mui/joy/Typography';
-import { extendTheme } from '@mui/joy/styles';
 import { NavBar } from "../../../components/NavBar";
-import { Speedometer } from "../../../components/Speedometer";
+import { Speedometer } from "../../../components/SpeedometerQB";
 import { useRouter } from "next/router";
 
 const colors = ["#e739d5", "#e74646", "#e7a539", "#49cb3c", "#983df0"]
@@ -55,11 +52,10 @@ export default function PlayerView() {
         // fetch player data here
         const player = {
           name: "Peyton Manning",
-          stats: [89, 144, 1141, 11, 6],
+          stats: [[89, 144, 1141, 11, 6]],
           qbr: 130,
           position: "QB",
           college: "Tennesse",
-          inNfl: true,
           src: "https://www.pro-football-reference.com/req/20230307/images/headshots/MannPe00_2019.jpg"
       }
         setPlayer(player)
@@ -77,27 +73,27 @@ export default function PlayerView() {
         const sp = [
           {
               name: "Josh Allen",
-              stats: [10, 144, 1041, 11, 6],
+              stats: [[10, 144, 1041, 11, 6]],
               qbr: 120
           },
           {
             name: "Patrick Mahomes",
-            stats: [20, 144, 1101, 11, 6],
+            stats: [[20, 144, 1101, 11, 6]],
             qbr: 120
         },
         {
             name: "Eli Manning",
-            stats: [30, 144, 1140, 11, 6],
+            stats: [[30, 144, 1140, 11, 6]],
             qbr: 120
         },
         {
           name: "Tom Brady",
-          stats: [40, 144, 1141, 19, 6],
+          stats: [[40, 144, 1141, 19, 6]],
           qbr: 120
         },
         {
           name: "Ben Rothlisberger",
-          stats: [110, 144, 1141, 5, 6],
+          stats: [[110, 144, 1141, 5, 6]],
           qbr: 120
         }
       ];
@@ -106,22 +102,6 @@ export default function PlayerView() {
       console.log(similarPlayers)
     }, []);
 
-    // doesnt work
-    extendTheme({
-      components: {
-        JoyCircularProgress: {
-          styleOverrides: {
-            root: ({ ownerState, theme }) => ({
-              ...(ownerState.size === 'xl' && {
-                '--Icon-fontSize': '2rem',
-                height: '10000',
-                fontSize: theme.vars.fontSize.xl,
-              }),
-            }),
-          },
-        },
-      },
-    });
 
     return(
         <div>
@@ -129,7 +109,7 @@ export default function PlayerView() {
         <Grid container spacing={2} style={{paddingLeft: "7%", marginTop: "2%"}}>
           <Grid item xs={3} style={{ borderRadius: "20px", boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white", marginTop: "1%" }}>
           <div style={{ marginLeft: "10%" }}>
-          <h1>{player.name}</h1>
+          <h1 style={{textAlign: "center", marginLeft: "-18%"}}>{player.name}</h1>
           <img src={player.src} width={225} style={{borderRadius: "5px", borderStyle: "solid", borderColor: "lightgray"}}></img>
           <h3>Position: <span style={{fontWeight: "normal"}}>{player.position}</span></h3>
           <h3>College: <span style={{fontWeight: "normal"}}>{player.college}</span></h3>
@@ -160,35 +140,37 @@ export default function PlayerView() {
             <div style={{borderRadius: '20px', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white", paddingBottom: "5%", marginTop: "2%"}}>
             <h1 style={{paddingTop: "5%", textAlign: "center" }}>NFL Stats</h1>
 
-              <Grid container style={{textAlign: "center", paddingRight: "5%" }}>
-              <Grid item xs={6}>
-              <Speedometer name={"QBR"} number={player.qbr} max={158.3}/>
+            <Grid container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: "5%" }}>
+              <Grid item xs={12} sm={6} style={{ display: 'flex', justifyContent: 'center' }}>
+                <Speedometer name={"QBR"} number={player.qbr} max={158.3}/>
               </Grid>
-              <Grid item xs={6}>
-              <Speedometer name={"QBR"} number={player.qbr} max={158.3}/>
-              </Grid>
-              <Grid item xs={6} style={{paddingTop:"9%"}}>
-              <Speedometer name={"QBR"} number={player.qbr} max={158.3}/>
-              </Grid>
-              <Grid item xs={6} style={{paddingTop:"9%"}}>
-              <Speedometer name={"QBR"} number={player.qbr} max={158.3}/>
-              </Grid>
-              </Grid>
-              </div>
+            </Grid>
+            </div>
           </Grid>
         </Grid>
         </div>
     )
 
   function parsePlayer(player) {
-    let dataAvg = player.stats;
+    let dataAvg = new Array();
+    for (let i = 0; i < 5; i++) {
+      dataAvg.push(0);
+    }
+
+    for (let i = 0; i < player.stats.length; i++) {
+      for (let j = 0; j < player.stats[i].length; j++) {
+        dataAvg[j] += player.stats[i][j];
+      }
+    }
+
+    dataAvg = dataAvg.map((val) => val / player.stats.length);
     const playerCategories = [{ name: "Completions", scale: 512 }, { name: "Attempts", scale: 719 }, { name: "Yards", scale: 5976 }, { name: "TD", scale: 62 }, { name: "Interceptions", scale: 14 }];
 
     const playerObj = {};
 
     playerCategories.forEach((category, i) => {
       const { name, scale } = category;
-      playerObj[name] = Math.max(dataAvg[i] / scale, 0);
+      playerObj[name] = dataAvg[i] / scale;
     });
     return playerObj;
   }
