@@ -41,7 +41,7 @@ export default function players() {
     }, []);
     const handleSearchChange = (event) => {
       if (event.target.value != "") {
-        setRows(rows.filter((row) => row.name.startsWith(event.target.value)));
+        setRows(initialRows.filter((row) => row.name.startsWith(event.target.value)));
       } else {
         setRows(initialRows)
       }
