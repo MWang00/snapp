@@ -68,10 +68,6 @@ export default function Home() {
         <SearchBar />
       </div>
       
-      <div>
-        <h2></h2>
-      </div>
-      
       <div style={{marginLeft: "20%", marginRight: "20%"}}>
         <h3 style={{marginLeft: "3%", marginTop: "4%"}}>Top Players</h3>
         <SortableTable height="28vh" rows={rows} setRows={setRows}/>
