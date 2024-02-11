@@ -77,7 +77,7 @@ export function SortableTable() {
   const getColumnStyle = (columnName) => ({
     textAlign: 'center',
     cursor: 'pointer',
-    backgroundColor: orderBy === columnName ? '#e0e0e0' : 'transparent',
+    backgroundColor: orderBy === columnName ? '#fbfcfe' : '#fbfcfe',
   });
 
   return (
