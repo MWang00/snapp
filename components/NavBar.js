@@ -14,11 +14,7 @@ const Item = styled(Sheet)(({ theme }) => ({
   color: theme.vars.palette.text.secondary,
 }));
 
-export function NavBar({ router }) {
-  const handleTableRoute = () => {
-    console.log("shit");
-    router.push("/players")
-  }
+export function NavBar({ searchQuery, handleSearchChange, onSearch }) {
   return (
     <Grid container spacing={3} sx={{ marginTop: "1%", marginLeft: "2%", marginRight: "2%" }}>
       {/* logo to direct to the landing page */}
@@ -39,7 +35,7 @@ export function NavBar({ router }) {
       <Grid xs />
 
       {/* Search */}
-      <SearchBar />
+      <SearchBar searchQuery={searchQuery} handleSearchChange={handleSearchChange} onSearch={onSearch} />
     </Grid>
   );
 }
