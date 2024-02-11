@@ -65,7 +65,8 @@ export default function PlayerView() {
         // fetch player data here
         const player = {
             name: "Micah Parsons",
-            stats: [[52, 57, 5.0, 0, 4]],
+            stats: [52, 57, 5.0, 0, 4],
+            inNfl: true,
             dr: 120,
             position: "DEF",
             src: "https://www.pro-football-reference.com/req/20230307/images/headshots/ParsMi00_2023.jpg",
@@ -86,27 +87,27 @@ export default function PlayerView() {
         const sp = [
           {
               name: "Larry Fitzgerald",
-              stats: [[52, 57, 5.0, 0, 4]],
+              stats: [52, 57, 5.0, 0, 4],
               dr: 120
           },
           {
             name: "Patrick Mahomes",
-            stats: [[52, 57, 5.0, 0, 4]],
+            stats: [52, 57, 5.0, 0, 4],
             dr: 120
         },
         {
             name: "Eli Manning",
-            stats: [[52, 57, 5.0, 0, 4]],
+            stats: [52, 57, 5.0, 0, 4],
             dr: 120
         },
         {
           name: "Tom Brady",
-          stats: [[52, 57, 5.0, 0, 4]],
+          stats: [52, 57, 5.0, 0, 4],
           dr: 120
         },
         {
           name: "Ben Rothlisberger",
-          stats: [[52, 57, 5.0, 0, 4]],
+          stats: [52, 57, 5.0, 0, 4],
           dr: 120
         }
       ];
@@ -174,7 +175,7 @@ export default function PlayerView() {
     )
 
   function parsePlayer(player) {
-    let dataAvg = avgPlayer(player);
+    let dataAvg = player.stats
     const playerCategories = [{ name: "Solo", scale: 104 }, { name: "Asst", scale: 322 }, { name: "Sacks", scale: 20 }, { name: "Interceptions", scale: 27 }, { name: "FF", scale: 14 }];
 
     const playerObj = {};
@@ -186,20 +187,4 @@ export default function PlayerView() {
     console.log(playerObj)
     return playerObj;
   }
-}
-
-function avgPlayer(player) {
-    let dataAvg = new Array();
-    for (let i = 0; i < 6; i++) {
-        dataAvg.push(0);
-    }
-
-    for (let i = 0; i < player.stats.length; i++) {
-        for (let j = 0; j < player.stats[i].length; j++) {
-            dataAvg[j] += player.stats[i][j];
-        }
-    }
-
-    dataAvg = dataAvg.map((val) => val / player.stats.length);
-    return dataAvg;
 }

@@ -53,7 +53,8 @@ export default function PlayerView() {
         // fetch player data here
         const player = {
             name: "Michael Pittman",
-            stats: [[101, 1275, 11, 1, 9, 11]],
+            stats: [101, 1275, 11, 1, 9, 11],
+            inNfl: true,
             rr: 120,
             src: "https://www.pro-football-reference.com/req/20230307/images/headshots/PittMi01_2023.jpg",
             position: "WR",
@@ -74,27 +75,27 @@ export default function PlayerView() {
         const sp = [
           {
               name: "Larry Fitzgerald",
-              stats: [[69, 1005, 12, 0, 0, 0]],
+              stats: [69, 1005, 12, 0, 0, 0],
               rr: 120
           },
           {
             name: "Patrick Mahomes",
-            stats: [[101, 1275, 11, 1, 9, 11]],
+            stats: [101, 1275, 11, 1, 9, 11],
             rr: 120
         },
         {
             name: "Eli Manning",
-            stats: [[101, 1275, 11, 1, 9, 11]],
+            stats: [101, 1275, 11, 1, 9, 11],
             rr: 120
         },
         {
           name: "Tom Brady",
-          stats: [[101, 1275, 11, 1, 9, 11]],
+          stats: [101, 1275, 11, 1, 9, 11],
           rr: 120
         },
         {
           name: "Ben Rothlisberger",
-          stats: [[101, 1275, 11, 1, 9, 11]],
+          stats: [101, 1275, 11, 1, 9, 11],
           rr: 120
         }
       ];
@@ -162,18 +163,8 @@ export default function PlayerView() {
     )
 
   function parsePlayer(player) {
-    let dataAvg = new Array();
-    for (let i = 0; i < 6; i++) {
-      dataAvg.push(0);
-    }
+    let dataAvg = player.stats;
 
-    for (let i = 0; i < player.stats.length; i++) {
-      for (let j = 0; j < player.stats[i].length; j++) {
-        dataAvg[j] += player.stats[i][j];
-      }
-    }
-
-    dataAvg = dataAvg.map((val) => val / player.stats.length);
     const playerCategories = [{ name: "Receptions", scale: 158 }, { name: "ReceivingYards", scale: 1640 }, { name: "ReceivingTD", scale: 27 }, { name: "Touches", scale: 450 }, { name: "RushingYards", scale: 2628 }, { name: "RushingTD", scale: 37 }];
 
     const playerObj = {};

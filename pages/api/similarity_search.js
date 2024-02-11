@@ -1,12 +1,21 @@
 // const url = 'https://api.sampleapis.com/wines/reds';
 import { MongoClient } from "mongodb";
 
+const dimMapping = {
+    "qb": 5,
+    "rb": 6,
+    "wr": 6,
+    "def": 8
+}
 
 export default async function handler(req, res) {
-    const { playerName, playerStats, position } = JSON.parse(req.body);
-    const embeddingVector = avgPlayer(playerStats);
-    const client = MongoClient("mongodb+srv://root:YvvJtMwFiFJRC0OU@football-player-mapping.tke63u1.mongodb.net/?retryWrites=true&w=majority");
+    let out = new Array();
+    const { playerName, playerStats, position } = req.body;
+    const embeddingVector = playerStats;
+    const client = new MongoClient("mongodb+srv://root:YvvJtMwFiFJRC0OU@football-player-mapping.tke63u1.mongodb.net/?retryWrites=true&w=majority");
+
     await client.connect();
+    console.log("connected")
     const database = client.db("football-player-mappings");
     let col;
     switch (position) {
@@ -26,42 +35,51 @@ export default async function handler(req, res) {
             {
                 '$vectorSearch': {
                     'index': 'vector_index',
+                    'path': 'embedding',
                     'filter': {
                         'position': {
                             '$eq': [position]
                         }
-                    }
-                },
-                "queryVector": embeddingVector,
-                "limit": 5
+                    },
+                    "queryVector": embeddingVector,
+                    "limit": 5,
+                    "numCandidates": 200
+                }
             }
         ];
     } else {
         agg = [
             {
                 "$vectorSearch": {
+                    'index': 'vector_index',
+                    'path': 'embedding',
+                    "limit": 5,
                     "queryVector": embeddingVector,
-                    "limit": 5
-                }
+                    "numCandidates": 200
+                },
             }
         ]
     }
 
-    const result = await col.aggregate(agg);
+    const result = col.aggregate(agg);
+    out = new Array();
+    await result.forEach((doc) => {
+        doc.embedding = handleAvg(doc.embedding, dimMapping[position]); 
+        out.push(doc)
+    });
+    res.status(200).json(out)
 }
 
-function avgPlayer(player) {
-    let dataAvg = new Array();
-    for (let i = 0; i < 6; i++) {
-        dataAvg.push(0);
-    }
 
-    for (let i = 0; i < player.stats.length; i++) {
-        for (let j = 0; j < player.stats[i].length; j++) {
-            dataAvg[j] += player.stats[i][j];
+function handleAvg(arr, dim) {
+    let out = new Array();
+    for (let j = 0; j < dim; j++) {
+        let avgSum = 0;
+        for (let i = j; i < arr.length; i += dim) {
+            avgSum += arr[i]
         }
+        out.push(avgSum / 4)
     }
 
-    dataAvg = dataAvg.map((val) => val / player.stats.length);
-    return dataAvg;
+    return out;
 }

@@ -55,10 +55,11 @@ export default function PlayerView() {
         // fetch player data here
         const player = {
           name: "Peyton Manning",
-          stats: [[89, 144, 1141, 11, 6]],
+          stats: [89, 144, 1141, 11, 6],
           qbr: 130,
           position: "QB",
           college: "Tennesse",
+          inNfl: true,
           src: "https://www.pro-football-reference.com/req/20230307/images/headshots/MannPe00_2019.jpg"
       }
         setPlayer(player)
@@ -76,27 +77,27 @@ export default function PlayerView() {
         const sp = [
           {
               name: "Josh Allen",
-              stats: [[10, 144, 1041, 11, 6]],
+              stats: [10, 144, 1041, 11, 6],
               qbr: 120
           },
           {
             name: "Patrick Mahomes",
-            stats: [[20, 144, 1101, 11, 6]],
+            stats: [20, 144, 1101, 11, 6],
             qbr: 120
         },
         {
             name: "Eli Manning",
-            stats: [[30, 144, 1140, 11, 6]],
+            stats: [30, 144, 1140, 11, 6],
             qbr: 120
         },
         {
           name: "Tom Brady",
-          stats: [[40, 144, 1141, 19, 6]],
+          stats: [40, 144, 1141, 19, 6],
           qbr: 120
         },
         {
           name: "Ben Rothlisberger",
-          stats: [[110, 144, 1141, 5, 6]],
+          stats: [110, 144, 1141, 5, 6],
           qbr: 120
         }
       ];
@@ -180,18 +181,7 @@ export default function PlayerView() {
     )
 
   function parsePlayer(player) {
-    let dataAvg = new Array();
-    for (let i = 0; i < 5; i++) {
-      dataAvg.push(0);
-    }
-
-    for (let i = 0; i < player.stats.length; i++) {
-      for (let j = 0; j < player.stats[i].length; j++) {
-        dataAvg[j] += player.stats[i][j];
-      }
-    }
-
-    dataAvg = dataAvg.map((val) => val / player.stats.length);
+    let dataAvg = player.stats;
     const playerCategories = [{ name: "Completions", scale: 512 }, { name: "Attempts", scale: 719 }, { name: "Yards", scale: 5976 }, { name: "TD", scale: 62 }, { name: "Interceptions", scale: 14 }];
 
     const playerObj = {};
