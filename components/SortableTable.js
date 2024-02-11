@@ -57,18 +57,11 @@ function stableSort(array, comparator) {
   return stabilizedTableCellis.map((el) => el[0]);
 }
 
-export function SortableTable({height, number}) {
+export function SortableTable({height, rows, setRows}) {
   const [order, setOrder] = useState(null); // Initialize order state as null
   const [orderBy, setOrderBy] = useState('');
-  let rows, setRows;
-  if (number == 0) {
-    [rows, setRows] = useState(initialRows.slice(0, initialRows.length));
-  } else {
-    [rows, setRows] = useState(initialRows.slice(0, number));
-  }
-  // const [rows, setRows] = useState(initialRows.slice(0, initialRows.length));
+  // [rows, setRows] = useState(initialRows.slice(0, initialRows.length));
   const [selectedColumn, setSelectedColumn] = useState(null);
-
   const handleSort = (property) => {
     const isAsc = orderBy === property && order === 'asc';
     const newOrder = isAsc ? 'desc' : 'asc';
