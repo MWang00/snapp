@@ -41,7 +41,10 @@ export default function Home() {
     <div>
       <img style={{ width: "120vh", marginTop: "4%", marginLeft: "auto", marginRight: "auto", display:"block"}} src="https://media.discordapp.net/attachments/1162065201152139294/1206072179209543690/snapp.png?ex=65daad3f&is=65c8383f&hm=36866481f9d59dce824e06d88b9f48d41f023add4ba90f400f6a31315785b46f&=&format=webp&quality=lossless&width=2268&height=664" alt="SNAPP" />
       
-      <h3 style={{marginTop: "-2%", textAlign: "center"}}>"AI-Powered Predictions: From College Fields to NFL Legends."</h3>
+      <h2 style={{marginTop: "-2%", textAlign: "center"}}>AI-Powered Predictions: from 
+        <i><LinearGradient gradient={["to right", "#a3a3a3, #605e5e"]}> College Fields</LinearGradient></i> to 
+        <i><LinearGradient gradient={["to right", "#f54242 ,#b50b02"]}> NFL Legends.</LinearGradient></i>
+      </h2>
 
       <div style={{marginLeft: "30%", marginRight: "30%"}}>
         <SearchBar />
