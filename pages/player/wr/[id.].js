@@ -3,10 +3,14 @@ import RadarChart from 'react-svg-radar-chart';
 import 'react-svg-radar-chart/build/css/index.css'
 import { Grid, Stack } from "@mui/material";
 import styles from "../../../styles/Home.module.css"
+import { NavBar } from "../../../components/NavBar";
+import { Speedometer } from "../../../components/Speedometer";
+import { useRouter } from "next/router";
 
 const colors = ["red", "green", "#eb9534", "purple", "pink"]
 
 export default function PlayerView() {
+    const router = useRouter()
     const [player, setPlayer] = useState({});
     const [data, setData] = useState([]);
     const [similarPlayers, setSimilarPlayers] = useState([]);
@@ -103,7 +107,8 @@ export default function PlayerView() {
 
     return(
         <div>
-        <Grid container spacing={2} style={{marginLeft: "2%", marginTop: "3%"}}>
+        <NavBar router={router}/>
+        <Grid container spacing={2} style={{marginLeft: "6%", marginTop: "2%"}}>
           <Grid item xs={3} style={{ borderStyle:"solid", borderColor: "lightgray", borderRadius: "5px", backgroundColor: "white", marginTop: "1%" }}>
           <div style={{ marginLeft: "10%" }}>
           <h1>{player.name}</h1>
@@ -134,6 +139,23 @@ export default function PlayerView() {
                 ))
               }
             </div>
+            <div style={{ borderStyle:"solid", borderColor: "lightgray", borderRadius: "5px", backgroundColor: "white", paddingBottom: "5%", marginTop: "2%"}}>
+            <h1 style={{ marginLeft: "5%" }}>NFL Stats</h1>
+              <Grid container style={{marginLeft: "5%"}}>
+              <Grid item xs={6}>
+              <Speedometer name={"RR"} number={player.rr} />
+              </Grid>
+              <Grid item xs={6}>
+              <Speedometer name={"RR"} number={player.rr} />
+              </Grid>
+              <Grid item xs={6} style={{paddingTop:"9%"}}>
+              <Speedometer name={"RR"} number={player.rr} />
+              </Grid>
+              <Grid item xs={6} style={{paddingTop:"9%"}}>
+              <Speedometer name={"RR"} number={player.rr} />
+              </Grid>
+              </Grid>
+              </div>
           </Grid>
         </Grid>
         </div>

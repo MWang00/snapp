@@ -3,10 +3,14 @@ import RadarChart from 'react-svg-radar-chart';
 import 'react-svg-radar-chart/build/css/index.css'
 import { Grid, Stack } from "@mui/material";
 import styles from "../../../styles/Home.module.css"
+import { useRouter } from "next/router";
+import { NavBar } from "../../../components/NavBar";
+import { Speedometer } from "../../../components/Speedometer";
 
 const colors = ["red", "green", "#eb9534", "purple", "pink"]
 
 export default function PlayerView() {
+    const router = useRouter()
     const [player, setPlayer] = useState({});
     const [data, setData] = useState([]);
     const [similarPlayers, setSimilarPlayers] = useState([]);
@@ -49,7 +53,10 @@ export default function PlayerView() {
         const player = {
             name: "Micah Parsons",
             stats: [[52, 57, 5.0, 0, 4]],
-            dr: 120
+            dr: 120,
+            position: "DEF",
+            src: "https://www.pro-football-reference.com/req/20230307/images/headshots/ParsMi00_2023.jpg",
+            college: "Penn St"
         }
 
         setPlayer(player)
@@ -99,8 +106,9 @@ export default function PlayerView() {
 
     return(
         <div>
-        <Grid container spacing={2}>
-          <Grid item xs={3}>
+        <NavBar router={router}/>
+        <Grid container spacing={2} style={{marginLeft: "6%", marginTop: "2%"}}>
+          <Grid item xs={3} style={{ borderStyle:"solid", borderColor: "lightgray", borderRadius: "5px", backgroundColor: "white", marginTop: "1%" }}>
           <div style={{ marginLeft: "10%" }}>
           <h1>{player.name}</h1>
           <img src={player.src} width={225} style={{borderRadius: "5px", borderStyle: "solid", borderColor: "lightgray"}}></img>
@@ -130,24 +138,30 @@ export default function PlayerView() {
                 ))
               }
             </div>
+            <div style={{ borderStyle:"solid", borderColor: "lightgray", borderRadius: "5px", backgroundColor: "white", paddingBottom: "5%", marginTop: "2%"}}>
+            <h1 style={{ marginLeft: "5%" }}>NFL Stats</h1>
+              <Grid container style={{marginLeft: "5%"}}>
+              <Grid item xs={6}>
+              <Speedometer name={"DR"} number={player.dr} />
+              </Grid>
+              <Grid item xs={6}>
+              <Speedometer name={"DR"} number={player.dr} />
+              </Grid>
+              <Grid item xs={6} style={{paddingTop:"9%"}}>
+              <Speedometer name={"DR"} number={player.dr} />
+              </Grid>
+              <Grid item xs={6} style={{paddingTop:"9%"}}>
+              <Speedometer name={"DR"} number={player.dr} />
+              </Grid>
+              </Grid>
+              </div>
           </Grid>
         </Grid>
         </div>
     )
 
   function parsePlayer(player) {
-    let dataAvg = new Array();
-    for (let i = 0; i < 6; i++) {
-      dataAvg.push(0);
-    }
-
-    for (let i = 0; i < player.stats.length; i++) {
-      for (let j = 0; j < player.stats[i].length; j++) {
-        dataAvg[j] += player.stats[i][j];
-      }
-    }
-
-    dataAvg = dataAvg.map((val) => val / player.stats.length);
+    let dataAvg = avgPlayer(player);
     const playerCategories = [{ name: "Solo", scale: 104 }, { name: "Asst", scale: 322 }, { name: "Sacks", scale: 20 }, { name: "Interceptions", scale: 27 }, { name: "FF", scale: 14 }];
 
     const playerObj = {};
@@ -159,4 +173,20 @@ export default function PlayerView() {
     console.log(playerObj)
     return playerObj;
   }
+}
+
+function avgPlayer(player) {
+    let dataAvg = new Array();
+    for (let i = 0; i < 6; i++) {
+        dataAvg.push(0);
+    }
+
+    for (let i = 0; i < player.stats.length; i++) {
+        for (let j = 0; j < player.stats[i].length; j++) {
+            dataAvg[j] += player.stats[i][j];
+        }
+    }
+
+    dataAvg = dataAvg.map((val) => val / player.stats.length);
+    return dataAvg;
 }

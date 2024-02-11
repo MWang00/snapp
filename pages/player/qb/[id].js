@@ -6,10 +6,14 @@ import styles from "../../../styles/Home.module.css"
 import CircularProgress from '@mui/joy/CircularProgress';
 import Typography from '@mui/joy/Typography';
 import { extendTheme } from '@mui/joy/styles';
+import { NavBar } from "../../../components/NavBar";
+import { Speedometer } from "../../../components/Speedometer";
+import { useRouter } from "next/router";
 
 const colors = ["#e739d5", "#e74646", "#e7a539", "#49cb3c", "#983df0"]
 
 export default function PlayerView() {
+    const router = useRouter();
     const [player, setPlayer] = useState({});
     const [data, setData] = useState([]);
     const [similarPlayers, setSimilarPlayers] = useState([]);
@@ -120,8 +124,9 @@ export default function PlayerView() {
 
     return(
         <div>
-        <Grid container spacing={2} style={{marginLeft: "6%", marginTop: "3%"}}>
-          <Grid item xs={3} style={{ borderStyle:"solid", borderColor: "lightgray", borderRadius: "5px", backgroundColor: "white" }}>
+        <NavBar router={router}/>
+        <Grid container spacing={2} style={{marginLeft: "6%", marginTop: "2%"}}>
+          <Grid item xs={3} style={{ borderStyle:"solid", borderColor: "lightgray", borderRadius: "5px", backgroundColor: "white", marginTop: "1%" }}>
           <div style={{ marginLeft: "10%" }}>
           <h1>{player.name}</h1>
           <img src={player.src} width={225} style={{borderRadius: "5px", borderStyle: "solid", borderColor: "lightgray"}}></img>
@@ -196,17 +201,4 @@ export default function PlayerView() {
     });
     return playerObj;
   }
-}
-
-function Speedometer({number, name}) {
-  return <div>
-    <div>
-      <CircularProgress style={{ marginLeft: "5%" }} size={"lg"} determinate value={(number / 158.3) * 100}>
-        <Typography>{number}</Typography>
-      </CircularProgress>
-    </div>
-    <div style={{ marginLeft: "9%", marginTop: "2%" }}>
-      {name}
-    </div>
-    </div>;
 }

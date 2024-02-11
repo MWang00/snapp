@@ -14,7 +14,11 @@ const Item = styled(Sheet)(({ theme }) => ({
   color: theme.vars.palette.text.secondary,
 }));
 
-export function NavBar() {
+export function NavBar({ router }) {
+  const handleTableRoute = () => {
+    console.log("shit");
+    router.push("/players")
+  }
   return (
     <Grid container spacing={3} sx={{ marginTop: "1%", marginLeft: "2%", marginRight: "2%" }}>
       {/* logo to direct to the landing page */}
@@ -26,7 +30,7 @@ export function NavBar() {
     
       {/* icon to direct to table page */}
       <Grid xs={1} style={{height: '50px'}}>
-        <Item>TABLE</Item>
+        <Item onClick={handleTableRoute}>TABLE</Item>
       </Grid>
 
       {/* padding */}

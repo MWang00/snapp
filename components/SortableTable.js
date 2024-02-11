@@ -108,7 +108,7 @@ export function SortableTable() {
             {rows.map((row, index) => (
               <tr key={index}>
                 <td style={{ textAlign: 'center' }}>
-                  <a href={`/player/${row.position}/${row.name}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <a href={`/player/${row.position.toLowerCase()}/${row.name}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                     {row.name}
                   </a>
                 </td>
