@@ -1,5 +1,5 @@
 // const url = 'https://api.sampleapis.com/wines/reds';
-import { MongoClient } from "mongodb";
+import { MongoClient, Double } from "mongodb";
 
 const dimMapping = {
     "qb": 5,
@@ -24,14 +24,16 @@ const colMappping = {
 
 export default async function handler(req, res) {
     let out = new Array();
-    const { playerName, playerStats, position } = req.body;
-    const embeddingVector = playerStats;
+    const { playerName, position } = JSON.parse(req.body);
     const client = new MongoClient("mongodb+srv://root:YvvJtMwFiFJRC0OU@football-player-mapping.tke63u1.mongodb.net/?retryWrites=true&w=majority");
 
     await client.connect();
     console.log("connected")
     const database = client.db("football-player-mappings");
     const col = database.collection(colMappping[position])
+    const doc = await col.findOne({"name": playerName, "position": position});
+    const embeddingVector = doc.embedding;
+    // console.log(doc.embedding.map((elem) => new Decimal128(elem.toString())))
     let agg;
     if (position === "wr" || position === "rb")  {
         agg = [
@@ -51,8 +53,8 @@ export default async function handler(req, res) {
                             }
                         }
                     ]},
-                    "queryVector": embeddingVector,
-                    "limit": 5,
+                    "queryVector": doc.embedding.map((elem) => new Double(elem.toString())),
+                    "limit": 6,
                     "numCandidates": 5392
                 }
             }
@@ -63,8 +65,8 @@ export default async function handler(req, res) {
                 "$vectorSearch": {
                     'index': 'vector_index',
                     'path': 'embedding',
-                    "limit": 5,
-                    "queryVector": embeddingVector,
+                    "limit": 6,
+                    "queryVector": doc.embedding.map((elem) => new Double(elem.toString())),
                     "numCandidates": 5392,
                     'filter': {
                         'inNfl': {
@@ -90,6 +92,7 @@ export default async function handler(req, res) {
         obj[posMapping[position]] = parseFloat(doc.nfl)
         out.push(obj)
     });
+    await client.close();
     res.status(200).json({
         players: out
     })

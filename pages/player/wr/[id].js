@@ -3,9 +3,9 @@ import RadarChart from 'react-svg-radar-chart';
 import 'react-svg-radar-chart/build/css/index.css'
 import { Grid, Stack } from "@mui/material";
 import styles from "../../../styles/Home.module.css"
-import { useRouter } from "next/router";
 import { NavBar } from "../../../components/NavBar";
 import { Speedometer } from "../../../components/Speedometer";
+import { useRouter } from "next/router";
 
 const colors = ["#e739d5", "#e74646", "#e7a539", "#49cb3c", "#983df0"]
 
@@ -18,12 +18,12 @@ export default function PlayerView() {
     const [colorState, setColorState] = useState(["black", "black", "black", "black", "black"])
     const captions = {
       // columns
-      ttpg: 'Tot TKLs',
-      spg: 'Sacks ',
-      ipg: 'Int',
-      ffpg: 'FrdcFUM',
-      pdpg: "PassDEF",
-      tflpg: "TKLoss"
+      Receptions: 'Receptions',
+      ReceivingYards: 'Receiving Yards',
+      ReceivingTD: 'Receiving TD',
+      Touches: 'Rush Att',
+      RushingYards: 'Rushing Yards',
+      RushingTD: 'Rushing TD',
     };
 
     const onSimilarPlayerClick = (e) => {
@@ -48,42 +48,42 @@ export default function PlayerView() {
     }
 
     useEffect(() => {
-        const splitUri = window.location.href.split("/")
-        const uuid = splitUri[splitUri.length - 1].replace("%20", " ")
-        // fetch player data here
-        fetch("/api/get_player", {
+      const splitUri = window.location.href.split("/")
+      const uuid = splitUri[splitUri.length - 1].replace("%20", " ")
+      // fetch player data here
+      fetch("/api/get_player", {
+        method: "POST",
+        body: JSON.stringify({
+          name: uuid,
+          position: "wr"
+        })
+      }).then((res) => res.json().then((player) => {
+        console.log(player)
+          setPlayer(player)
+          const playerObj = parsePlayer(player);
+
+        const data = [
+          {
+            data: playerObj,
+            meta: { color: 'blue' }
+          }
+        ];
+        setData(data)
+
+        fetch("/api/similarity_search", {
           method: "POST",
           body: JSON.stringify({
-            name: uuid,
-            position: "def"
+            playerName: player.name,
+            position: "wr"
           })
-        }).then((res) => res.json().then((player) => {
-          console.log(player)
-            setPlayer(player)
-            const playerObj = parsePlayer(player);
-            console.log(playerObj)
-          const data = [
-            {
-              data: playerObj,
-              meta: { color: 'blue' }
-            }
-          ];
-          setData(data)
-
-          fetch("/api/similarity_search", {
-            method: "POST",
-            body: JSON.stringify({
-              playerName: player.name,
-              position: "def"
-            })
-          }).then((res) => res.json().then((tmp) => {
-            const sp = tmp.players.slice(1, tmp.length)
-            setSimilarPlayers(sp);
-            player.position = player.position.toUpperCase();
-            setPlayer(player)
-          }))
+        }).then((res) => res.json().then((tmp) => {
+          const sp = tmp.players.slice(1, tmp.length)
+          setSimilarPlayers(sp);
+          player.position = player.position.toUpperCase();
+          setPlayer(player)
         }))
-    }, []);
+      }))
+  }, []);
 
 
 
@@ -94,11 +94,11 @@ export default function PlayerView() {
           <Grid item xs={3} style={{ borderRadius: "20px", boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white", marginTop: "1%" }}>
           <div style={{ marginLeft: "11%" }}>
           <h1 style={{textAlign: "center", marginLeft: "-18%"}}>{player.name}</h1>
-          <img src={player.src} width={225} style={{borderRadius: "10px", borderStyle: "solid", borderColor: "black", borderWidth: "2px"}}></img>
+          <img src={player.src} width={225} style={{borderRadius: "10px", borderStyle: "solid", borderColor: "black", borderWidth: "2px" }}></img>
           <h3>Position: <span style={{fontWeight: "normal"}}>{player.position}</span></h3>
           <h3>College: <span style={{fontWeight: "normal"}}>{player.college}</span></h3>
           <h3>Class: <span style={{fontWeight: "normal"}}>{player.class}</span></h3>
-          </div>  
+          </div>
           </Grid>
           <Grid item xs={5.5}>
             <div style={{ borderRadius: "20px", boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white", paddingLeft: "7.5%"}}>
@@ -109,7 +109,7 @@ export default function PlayerView() {
                 data={data}
                 size={500}
               />
-              </div>
+            </div>
             </div>
           </Grid>
           <Grid item xs={2.5}>
@@ -118,7 +118,7 @@ export default function PlayerView() {
               {
                 similarPlayers.map((p, i) => (
                   <div style={{marginTop: "2.5%", marginBottom: "2.5%", marginLeft: "10%"}} key={`div${i}`}>
-                  <button className={styles.playerButton} key={`button${i}`} id={i} style={{color: colorState[i], cursor: 'pointer', backgroundColor: "transparent", borderStyle: "solid", borderColor: colorState[i] }} onClick={onSimilarPlayerClick}>
+                  <button className={styles.playerButton} key={`button${i}`} id={i} style={{color: colorState[i], cursor: 'pointer', backgroundColor: "transparent", borderStyle: "solid", borderColor: colorState[i]}} onClick={onSimilarPlayerClick}>
                     {p.name}
                   </button>
                   </div>
@@ -126,19 +126,20 @@ export default function PlayerView() {
               }
             </div>
             <div style={{ borderRadius: '20px', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white", paddingBottom: "5%", marginTop: "2%"}}>
-            <h1 style={{ paddingTop: "5%", textAlign: "center"  }}>NFL Stats</h1>
-              <Grid container style={{ textAlign: "center", paddingRight: "5%"}}>
+            <h1 style={{ paddingTop: "5%", textAlign: "center" }}>NFL Stats</h1>
+              <Grid container style={{ textAlign: "center", paddingRight: "5%" }}>
+
               <Grid item xs={6}>
-              <Speedometer name={"TT"} number={player.stats[0]} max={60}/>
+              <Speedometer name={"Receiving Yards"} number={player.stats[4]} max={1450}/>
               </Grid>
               <Grid item xs={6}>
-              <Speedometer name={"S"} number={player.stats[1]} max={5}/>
+              <Speedometer name={"Receptions"} number={player.stats[3]} max={100}/>
               </Grid>
               <Grid item xs={6} style={{paddingTop:"9%"}}>
-              <Speedometer name={"INT"} number={player.stats[2]} max={10} />
+              <Speedometer name={"Receiving TD"} number={player.stats[5]} max={15}/>
               </Grid>
               <Grid item xs={6} style={{paddingTop:"9%"}}>
-              <Speedometer name={"FF"} number={player.stats[3]} max={8}/>
+              <Speedometer name={"Fantasy Points"} number={0.1*player.stats[4]+0.5*player.stats[3]+6*player.stats[5]} />
               </Grid>
               </Grid>
               </div>
@@ -148,8 +149,9 @@ export default function PlayerView() {
     )
 
   function parsePlayer(player) {
-    let dataAvg = player.stats
-    const playerCategories = [{ name: "ttpg", scale: 60 }, { name: "spg", scale: 5 }, { name: "ipg", scale: 10 }, { name: "ffpg", scale: 8 }, { name: "pdpg", scale: 2*12 }, { name: "tflpg", scale: 15 }];
+    let dataAvg = player.stats;
+
+    const playerCategories = [{ name: "RushingYards", scale: 50 }, { name: "Touches", scale: 10 }, { name: "RushingTD", scale: 1 }, { name: "Receptions", scale: 100 }, { name: "ReceivingYards", scale: 1450 }, { name: "ReceivingTD", scale: 13 }];
 
     const playerObj = {};
 

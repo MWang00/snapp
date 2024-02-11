@@ -47,20 +47,20 @@ export default function PlayerView() {
     }
 
     useEffect(() => {
-        const splitUri = window.location.href.split("/")
-        const uuid = splitUri[splitUri.length - 1]
-        // fetch player data here
-        const player = {
-          name: "Peyton Manning",
-          stats: [[89, 144, 1141, 11, 6]],
-          qbr: 130,
-          position: "QB",
-          college: "Tennesse",
-          src: "https://www.pro-football-reference.com/req/20230307/images/headshots/MannPe00_2019.jpg"
-      }
-        setPlayer(player)
-
-        const playerObj = parsePlayer(player);
+      const splitUri = window.location.href.split("/")
+      const uuid = splitUri[splitUri.length - 1].replace("%20", " ")
+      console.log(splitUri[splitUri.length - 1].replace("%20", " "))
+      // fetch player data here
+      fetch("/api/get_player", {
+        method: "POST",
+        body: JSON.stringify({
+          name: uuid,
+          position: "qb"
+        })
+      }).then((res) => res.json().then((player) => {
+        console.log(player)
+          setPlayer(player)
+          const playerObj = parsePlayer(player);
 
         const data = [
           {
@@ -69,38 +69,34 @@ export default function PlayerView() {
           }
         ];
         setData(data)
-        // Fetch similar players here
-        const sp = [
-          {
-              name: "Josh Allen",
-              stats: [[10, 144, 1041, 11, 6]],
-              qbr: 120
-          },
-          {
-            name: "Patrick Mahomes",
-            stats: [[20, 144, 1101, 11, 6]],
-            qbr: 120
-        },
-        {
-            name: "Eli Manning",
-            stats: [[30, 144, 1140, 11, 6]],
-            qbr: 120
-        },
-        {
-          name: "Tom Brady",
-          stats: [[40, 144, 1141, 19, 6]],
-          qbr: 120
-        },
-        {
-          name: "Ben Rothlisberger",
-          stats: [[110, 144, 1141, 5, 6]],
-          qbr: 120
-        }
-      ];
 
-      setSimilarPlayers(sp);
-      console.log(similarPlayers)
-    }, []);
+        fetch("/api/similarity_search", {
+          method: "POST",
+          body: JSON.stringify({
+            playerName: player.name,
+            position: "qb"
+          })
+        }).then((res) => res.json().then((tmp) => {
+          const sp = tmp.players.slice(1, tmp.length)
+          setSimilarPlayers(sp);
+          player.position = player.position.toUpperCase();
+          setPlayer(player)
+        }))
+
+        fetch("/api/get_model_val", {
+          method: "POST",
+          body: JSON.stringify({
+            playerName: player.name,
+            position: "qb"
+          })
+        }).then((res) => res.json().then((body) => {
+          const tmp = player;
+          tmp.qbr = Math.round(body.predictions[0]);
+          setPlayer(tmp);
+        }))
+      }));
+      
+  }, []);
 
 
     return(
@@ -113,7 +109,7 @@ export default function PlayerView() {
           <img src={player.src} width={225} style={{borderRadius: "10px", borderStyle: "solid", borderColor: "black", borderWidth: "2px" }}></img>
           <h3>Position: <span style={{fontWeight: "normal"}}>{player.position}</span></h3>
           <h3>College: <span style={{fontWeight: "normal"}}>{player.college}</span></h3>
-          <h3>Class: <span style={{fontWeight: "normal"}}>{player.college}</span></h3>
+          <h3>Class: <span style={{fontWeight: "normal"}}>{player.class}</span></h3>
           </div>  
           </Grid>
           <Grid item xs={5.5}>
@@ -146,7 +142,7 @@ export default function PlayerView() {
 
             <Grid container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: "5%" }}>
               <Grid item xs={12} sm={6} style={{ display: 'flex', justifyContent: 'center' }}>
-                <Speedometer name={"QBR"} number={player.qbr} max={158.3}/>
+                <Speedometer name={"QBR"} number={player.qbr - 50} max={158.3}/>
               </Grid>
             </Grid>
             </div>
@@ -156,19 +152,10 @@ export default function PlayerView() {
     )
 
   function parsePlayer(player) {
-    let dataAvg = new Array();
-    for (let i = 0; i < 5; i++) {
-      dataAvg.push(0);
-    }
-
-    for (let i = 0; i < player.stats.length; i++) {
-      for (let j = 0; j < player.stats[i].length; j++) {
-        dataAvg[j] += player.stats[i][j];
-      }
-    }
+    let dataAvg = player.stats;
 
     dataAvg = dataAvg.map((val) => val / player.stats.length);
-    const playerCategories = [{ name: "Completions", scale: 512 }, { name: "Attempts", scale: 719 }, { name: "Yards", scale: 5976 }, { name: "TD", scale: 62 }, { name: "Interceptions", scale: 14 }];
+    const playerCategories = [{ name: "Completions", scale: 300/6 }, { name: "Attempts", scale: 450/6 }, { name: "Yards", scale: 3800/6 }, { name: "TD", scale: 32/6 }, { name: "Interceptions", scale: 12/6}];
 
     const playerObj = {};
 
