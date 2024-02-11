@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Table from '@mui/joy/Table';
 import {Paper} from '@mui/material';
 import { TableBody, TableHead, TableRow, TableCell } from '@mui/material';
-// import styles from '../styles/SortableTable.module.css';
 
 function createData(name, school, position, score, similarplayer) {
   return { name, school, position, score, similarplayer };
@@ -71,7 +70,6 @@ export function SortableTable({height, rows, setRows}) {
           <TableHead>
             <TableRow>
               <TableCell style={getColumnStyle('name')} onClick={() => handleSort('name')}>Player<SortIndicator column="name" /></TableCell>
-              <TableCell style={getColumnStyle('school')} onClick={() => handleSort('school')}>School<SortIndicator column="school" /></TableCell>
               <TableCell style={getColumnStyle('position')} onClick={() => handleSort('position')}>Position<SortIndicator column="position" /></TableCell>
               <TableCell style={getColumnStyle('playerclass')} onClick={() => handleSort('playerclass')}>Class<SortIndicator column="playerclass" /></TableCell>
               {/* <TableCell style={getColumnStyle('similarplayer')} onClick={() => handleSort('similarplayer')}>Similar Player<SortIndicator column="similarplayer" /></TableCell> */}
@@ -102,7 +100,6 @@ export function SortableTable({height, rows, setRows}) {
     );
   })}
 </TableBody>
-
         </Table>
       </div>
       </Paper>

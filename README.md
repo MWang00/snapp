@@ -1,1 +1,2 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).
+# SNAPP
+SNAPP is an AI-powered football analysis database that compares player statistics to predict the outlook of current college players. 

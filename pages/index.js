@@ -1,12 +1,11 @@
-import * as React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SortableTable } from '../components/SortableTable';
 import { NavBar } from '../components/NavBar';
 import { SearchBar } from '../components/SearchBar';
 import styles from '../styles/Home.module.css';
 import {LinearGradient} from "react-text-gradients"
 import { Button } from '@mui/joy';
-import { useEffect } from 'react';
+
 
 // const [anchorEl, setAnchorEl] = React.useState(null);
 // const open = Boolean(anchorEl);
@@ -68,10 +67,6 @@ export default function Home() {
         <SearchBar />
       </div>
       
-      <div>
-        <h2></h2>
-      </div>
-      
       <div style={{marginLeft: "20%", marginRight: "20%"}}>
         <h3 style={{marginLeft: "3%", marginTop: "4%"}}>Top Players</h3>
         <SortableTable height="28vh" rows={rows} setRows={setRows}/>
@@ -81,7 +76,6 @@ export default function Home() {
             <Button variant="outlined" color="neutral">See more entries</Button>
           </a>
         </div>
-      
       </div>
     </div>
     );

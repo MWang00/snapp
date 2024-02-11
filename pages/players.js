@@ -1,22 +1,9 @@
-// import * as React from 'react';
-// import { useState } from 'react';
-// import { SortableTable } from '../components/SortableTable';
-// import { NavBar } from '../components/NavBar';
-// import {LinearGradient} from "react-text-gradients"
-// import { useEffect } from 'react';
-// import { useRouter } from 'next/router';
-
-// function createData(name, school, position, score, similarplayer) {
-//   return { name, school, position, score, similarplayer };
-// }
-
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { SortableTable } from '../components/SortableTable';
 import { NavBar } from '../components/NavBar';
 import { LinearGradient } from "react-text-gradients";
 import { useRouter } from 'next/router';
-
 
 const initialRows = [
   
@@ -45,7 +32,6 @@ export default function players() {
       })
       .catch(error => console.error('Error fetching player data:', error));
   }, []);
-
   useEffect(() => {
     if (search) {
       const searchLowercase = search.toLowerCase();
