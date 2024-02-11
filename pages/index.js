@@ -35,8 +35,18 @@ export default function Home() {
   //   setAnchorEl(null);
   // };
 
-  return (<div>
-    <a href="./players">link to players table</a>
-  </div>
-  );
+  return (
+    <div>
+      <a href="./players">link to players table</a>
+      <div>
+      <img style={{ width: "120vh", marginTop: "4%", marginLeft: "auto", marginRight: "auto", display:"block"}} src="https://media.discordapp.net/attachments/1162065201152139294/1206072179209543690/snapp.png?ex=65daad3f&is=65c8383f&hm=36866481f9d59dce824e06d88b9f48d41f023add4ba90f400f6a31315785b46f&=&format=webp&quality=lossless&width=2268&height=664" alt="SNAPP" />
+      <div style={{marginLeft: "30%", marginRight: "30%"}}>
+        <SearchBar />
+      </div>
+      <div>
+        <h2></h2>
+      </div>
+      </div>
+    </div>
+    );
 }
