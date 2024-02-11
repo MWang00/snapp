@@ -5,7 +5,7 @@ const dimMapping = {
     "qb": 5,
     "rb": 6,
     "wr": 6,
-    "def": 8
+    "def": 6
 }
 
 const posMapping = {
@@ -13,6 +13,13 @@ const posMapping = {
     "rb": "rr",
     "wr": "rr",
     "def": "dr"
+}
+
+const colMappping = {
+    "qb": "qb",
+    "def": "def",
+    "rb": "rb/wr",
+    "wr": "rb/wr"
 }
 
 export default async function handler(req, res) {
@@ -24,26 +31,15 @@ export default async function handler(req, res) {
     await client.connect();
     console.log("connected")
     const database = client.db("football-player-mappings");
-    let col;
-    switch (position) {
-        case "qb":
-            col = database.collection("qb");
-            break;
-        case "wr" | "rb":
-            col = database.collection("rb/wr");
-            break;
-        default:
-            col = database.collection("def");
-    }
+    const col = database.collection(colMappping[position])
     let agg;
-
     if (position === "wr" || position === "rb")  {
         agg = [
             {
                 '$vectorSearch': {
                     'index': 'vector_index',
                     'path': 'embedding',
-                    'filter': '$and' [
+                    'filter': {'$and': [
                         {
                             'position': {
                                 '$eq': position
@@ -54,7 +50,7 @@ export default async function handler(req, res) {
                                 '$eq': true
                             }
                         }
-                    ],
+                    ]},
                     "queryVector": embeddingVector,
                     "limit": 5,
                     "numCandidates": 5392
@@ -86,12 +82,17 @@ export default async function handler(req, res) {
         doc.embedding = handleAvg(doc.embedding, dimMapping[position]); 
         const obj = {
             stats: doc.embedding,
-            name: doc.name
+            name: doc.name,
+            src: doc.img,
+            college: doc.college,
+            class: doc.class
         }
         obj[posMapping[position]] = parseFloat(doc.nfl)
         out.push(obj)
     });
-    res.status(200).json(out)
+    res.status(200).json({
+        players: out
+    })
 }
 
 

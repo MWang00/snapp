@@ -5,12 +5,7 @@ import Input from '@mui/joy/Input';
 import IconButton from '@mui/joy/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
-export function SearchBar({ onSearch }) {
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
+export function SearchBar({ onSearch, handleSearchChange, searchQuery }) {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault(); // Prevent the form from submitting and refreshing the page
