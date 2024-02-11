@@ -108,7 +108,7 @@ export default function PlayerView() {
     return(
         <div>
         <NavBar router={router}/>
-        <Grid container spacing={2} style={{marginLeft: "6%", marginTop: "2%"}}>
+        <Grid container spacing={2} style={{marginTop: "2%"}}>
           <Grid item xs={3} style={{ borderStyle:"solid", borderColor: "lightgray", borderRadius: "5px", backgroundColor: "white", marginTop: "1%" }}>
           <div style={{ marginLeft: "10%" }}>
           <h1>{player.name}</h1>

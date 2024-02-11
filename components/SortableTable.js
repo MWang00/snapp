@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Table from '@mui/joy/Table';
-import Sheet from '@mui/joy/Sheet';
+import {Paper} from '@mui/material';
+import { TableBody, TableHead, TableRow, TableCell } from '@mui/material';
 // import styles from '../styles/SortableTable.module.css';
 
 function createData(name, school, position, score, similarplayer) {
@@ -47,13 +48,13 @@ function getComparator(order, orderBy) {
 }
 
 function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
+  const stabilizedTableCellis = array.map((el, index) => [el, index]);
+  stabilizedTableCellis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
     return a[1] - b[1];
   });
-  return stabilizedThis.map((el) => el[0]);
+  return stabilizedTableCellis.map((el) => el[0]);
 }
 
 export function SortableTable() {
@@ -84,36 +85,36 @@ export function SortableTable() {
     <div>
       
       {/* borderColor:'lightgray', borderStyle:'solid' */}
-      <Sheet sx={{ height: '75vh', overflow: 'auto', borderRadius: '20px', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)'}}>
+      <Paper sx={{ height: '75vh', overflow: 'auto', borderRadius: '20px', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)' }}>
       <div style={{ borderRadius: '8px'}}>
-        <Table aria-label="playertable" stickyHeader stickyFooter>
-          <thead>
-            <tr>
-              <th style={getColumnStyle('name')} onClick={() => handleSort('name')}>Player<SortIndicator column="name" /></th>
-              <th style={getColumnStyle('school')} onClick={() => handleSort('school')}>School<SortIndicator column="school" /></th>
-              <th style={getColumnStyle('position')} onClick={() => handleSort('position')}>Position<SortIndicator column="position" /></th>
-              <th style={getColumnStyle('score')} onClick={() => handleSort('score')}>Draftability<SortIndicator column="score" /></th>
-              <th style={getColumnStyle('similarplayer')} onClick={() => handleSort('similarplayer')}>Similar Player<SortIndicator column="similarplayer" /></th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table aria-label="sticky table" stickyHeader>
+          <TableHead>
+            <TableRow>
+              <TableCell style={getColumnStyle('name')} onClick={() => handleSort('name')}>Player<SortIndicator column="name" /></TableCell>
+              <TableCell style={getColumnStyle('school')} onClick={() => handleSort('school')}>School<SortIndicator column="school" /></TableCell>
+              <TableCell style={getColumnStyle('position')} onClick={() => handleSort('position')}>Position<SortIndicator column="position" /></TableCell>
+              <TableCell style={getColumnStyle('score')} onClick={() => handleSort('score')}>Draftability<SortIndicator column="score" /></TableCell>
+              <TableCell style={getColumnStyle('similarplayer')} onClick={() => handleSort('similarplayer')}>Similar Player<SortIndicator column="similarplayer" /></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {rows.map((row, index) => (
-              <tr key={index}>
-                <td style={{ textAlign: 'center' }}>
-                  <a href={`/player/${row.position.toLowerCase()}/${row.name}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <TableRow key={index}>
+                <TableCell style={{ textAlign: 'center' }}>
+                  <a href={`/player/${row.position.toLowerCase()}/${row.name}`} style={{ texTableCellecoration: 'none', color: 'inherit' }}>
                     {row.name}
                   </a>
-                </td>
-                <td style={{ textAlign: 'center' }}>{row.school}</td>
-                <td style={{ textAlign: 'center' }}>{row.position}</td>
-                <td style={{ textAlign: 'center' }}>{row.score}</td>
-                <td style={{ textAlign: 'center' }}>{row.similarplayer}</td>
-              </tr>
+                </TableCell>
+                <TableCell style={{ textAlign: 'center' }}>{row.school}</TableCell>
+                <TableCell style={{ textAlign: 'center' }}>{row.position}</TableCell>
+                <TableCell style={{ textAlign: 'center' }}>{row.score}</TableCell>
+                <TableCell style={{ textAlign: 'center' }}>{row.similarplayer}</TableCell>
+              </TableRow>
             ))}
-          </tbody>
+          </TableBody>
         </Table>
       </div>
-      </Sheet>
+      </Paper>
     </div>
   );
 }
