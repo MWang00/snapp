@@ -1,17 +1,20 @@
-import * as React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Box from '@mui/joy/Box';
 import Input from '@mui/joy/Input';
 import IconButton from '@mui/joy/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
-export function SearchBar({ onSearch, handleSearchChange, searchQuery }) {
+export function SearchBar() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
 
   const handleSearchSubmit = (event) => {
-    event.preventDefault(); // Prevent the form from submitting and refreshing the page
-    if (onSearch) {
-      onSearch(searchQuery); // Execute the search function passed as a prop
-    }
+    event.preventDefault();
+    router.push({
+      pathname: '/players',
+      query: { search: searchQuery },
+    });
   };
 
   return (
@@ -30,13 +33,12 @@ export function SearchBar({ onSearch, handleSearchChange, searchQuery }) {
         placeholder="Search player"
         variant="outlined"
         value={searchQuery}
-        onChange={handleSearchChange}
+        onChange={(e) => setSearchQuery(e.target.value)}
         sx={{ flexGrow: 1 }}
       />
       <IconButton type="submit" aria-label="search">
         <SearchIcon />
       </IconButton>
-      
     </Box>
   );
 }

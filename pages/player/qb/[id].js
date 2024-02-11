@@ -82,7 +82,20 @@ export default function PlayerView() {
           player.position = player.position.toUpperCase();
           setPlayer(player)
         }))
-      }))
+
+        fetch("/api/get_model_val", {
+          method: "POST",
+          body: JSON.stringify({
+            playerName: player.name,
+            position: "qb"
+          })
+        }).then((res) => res.json().then((body) => {
+          const tmp = player;
+          tmp.qbr = Math.round(body.predictions[0]);
+          setPlayer(tmp);
+        }))
+      }));
+      
   }, []);
 
 
@@ -129,7 +142,7 @@ export default function PlayerView() {
 
             <Grid container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: "5%" }}>
               <Grid item xs={12} sm={6} style={{ display: 'flex', justifyContent: 'center' }}>
-                <Speedometer name={"QBR"} number={player.qbr} max={158.3}/>
+                <Speedometer name={"QBR"} number={player.qbr - 50} max={158.3}/>
               </Grid>
             </Grid>
             </div>

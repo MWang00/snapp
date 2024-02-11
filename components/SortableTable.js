@@ -9,26 +9,7 @@ function createData(name, school, position, score, similarplayer) {
 }
 
 const initialRows = [
-  createData('John Doe', 'University of Alabama', 'WR', 1, 'Julio Jones'),
-  createData('Alex Smith', 'Ohio State University', 'WR', 2, 'Michael Thomas'),
-  createData('Brian Taylor', 'Clemson University', 'WR', 1, 'DeAndre Hopkins'),
-  createData('Chris Johnson', 'University of Florida', 'WR', 3, 'Emmanuel Sanders'),
-  createData('Derek Allen', 'LSU', 'WR', 2, 'Jarvis Landry'),
-  createData('Evan White', 'University of Oklahoma', 'WR', 1, 'CeeDee Lamb'),
-  createData('Frank Brown', 'Penn State', 'WR', 3, 'Chris Godwin'),
-  createData('George King', 'University of Notre Dame', 'WR', 2, 'Chase Claypool'),
-  createData('Henry Davis', 'University of Southern California', 'WR', 4, 'Robert Woods'),
-  createData('Isaac Wilson', 'Stanford University', 'WR', 3, 'JJ Arcega-Whiteside'),
-  createData('Jack Thomas', 'University of Michigan', 'WR', 4, 'Donovan Peoples-Jones'),
-  createData('Kevin Young', 'University of Georgia', 'WR', 2, 'A.J. Green'),
-  createData('Liam Carter', 'Texas A&M', 'WR', 1, 'Mike Evans'),
-  createData('Mason Hill', 'University of South Carolina', 'WR', 3, 'Deebo Samuel'),
-  createData('Nathan Baker', 'TCU', 'WR', 4, 'Jalen Reagor'),
-  createData('Oscar Adams', 'University of California, Berkeley', 'WR', 2, 'DeSean Jackson'),
-  createData('Patrick Scott', 'University of Mississippi', 'WR', 1, 'DK Metcalf'),
-  createData('Quinn Lewis', 'University of Louisville', 'WR', 3, 'DeVante Parker'),
-  createData('Ryan Martinez', 'University of Colorado', 'WR', 4, 'Laviska Shenault Jr.'),
-  createData('Samuel Green', 'University of Washington', 'WR', 2, 'John Ross')
+  createData('Loading...', '', '', '', '')
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -92,25 +73,36 @@ export function SortableTable({height, rows, setRows}) {
               <TableCell style={getColumnStyle('name')} onClick={() => handleSort('name')}>Player<SortIndicator column="name" /></TableCell>
               <TableCell style={getColumnStyle('school')} onClick={() => handleSort('school')}>School<SortIndicator column="school" /></TableCell>
               <TableCell style={getColumnStyle('position')} onClick={() => handleSort('position')}>Position<SortIndicator column="position" /></TableCell>
-              <TableCell style={getColumnStyle('score')} onClick={() => handleSort('score')}>Draftability<SortIndicator column="score" /></TableCell>
-              <TableCell style={getColumnStyle('similarplayer')} onClick={() => handleSort('similarplayer')}>Similar Player<SortIndicator column="similarplayer" /></TableCell>
+              <TableCell style={getColumnStyle('playerclass')} onClick={() => handleSort('playerclass')}>Class<SortIndicator column="playerclass" /></TableCell>
+              {/* <TableCell style={getColumnStyle('similarplayer')} onClick={() => handleSort('similarplayer')}>Similar Player<SortIndicator column="similarplayer" /></TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell style={{ textAlign: 'center' }}>
-                  <a href={`/player/${row.position.toLowerCase()}/${row.name}`} style={{ texTableCellecoration: 'none', color: 'inherit' }}>
-                    {row.name}
-                  </a>
-                </TableCell>
-                <TableCell style={{ textAlign: 'center' }}>{row.school}</TableCell>
-                <TableCell style={{ textAlign: 'center' }}>{row.position}</TableCell>
-                <TableCell style={{ textAlign: 'center' }}>{row.score}</TableCell>
-                <TableCell style={{ textAlign: 'center' }}>{row.similarplayer}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+  {rows.map((row, index) => {
+    // Debugging: Log the current row to the console
+    // console.log(`Row ${index}:`, row);
+
+    // // Check if the row is undefined before proceeding
+    // if (!row) {
+    //   console.error(`Row ${index} is undefined.`);
+    //   return null; // Skip rendering this row
+    // }
+
+    return (
+      <TableRow key={index}>
+        <TableCell style={{ textAlign: 'center' }}>
+          <a href={`/player/${row.position ? row.position.toLowerCase() : 'unknown'}/${row.name}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+            {row.name}
+          </a>
+        </TableCell>
+        <TableCell style={{ textAlign: 'center' }}>{row.school || 'N/A'}</TableCell>
+        <TableCell style={{ textAlign: 'center' }}>{row.position || 'N/A'}</TableCell>
+        <TableCell style={{ textAlign: 'center' }}>{row.playerclass || 'N/A'}</TableCell>
+      </TableRow>
+    );
+  })}
+</TableBody>
+
         </Table>
       </div>
       </Paper>

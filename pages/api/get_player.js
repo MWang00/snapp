@@ -44,7 +44,7 @@ export default async function handler(req, res) {
         position: position
     }
 
-
+    await client.close();
     res.status(200).json(obj); 
 }
 

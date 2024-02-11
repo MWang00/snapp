@@ -1,59 +1,68 @@
+// import * as React from 'react';
+// import { useState } from 'react';
+// import { SortableTable } from '../components/SortableTable';
+// import { NavBar } from '../components/NavBar';
+// import {LinearGradient} from "react-text-gradients"
+// import { useEffect } from 'react';
+// import { useRouter } from 'next/router';
+
+// function createData(name, school, position, score, similarplayer) {
+//   return { name, school, position, score, similarplayer };
+// }
+
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SortableTable } from '../components/SortableTable';
 import { NavBar } from '../components/NavBar';
-import {LinearGradient} from "react-text-gradients"
-import { useEffect } from 'react';
+import { LinearGradient } from "react-text-gradients";
 import { useRouter } from 'next/router';
 
-function createData(name, school, position, score, similarplayer) {
-  return { name, school, position, score, similarplayer };
-}
 
 const initialRows = [
-  createData('John Doe', 'University of Alabama', 'WR', 1, 'Julio Jones'),
-  createData('Alex Smith', 'Ohio State University', 'WR', 2, 'Michael Thomas'),
-  createData('Brian Taylor', 'Clemson University', 'WR', 1, 'DeAndre Hopkins'),
-  createData('Chris Johnson', 'University of Florida', 'WR', 3, 'Emmanuel Sanders'),
-  createData('Derek Allen', 'LSU', 'WR', 2, 'Jarvis Landry'),
-  createData('Evan White', 'University of Oklahoma', 'WR', 1, 'CeeDee Lamb'),
-  createData('Frank Brown', 'Penn State', 'WR', 3, 'Chris Godwin'),
-  createData('George King', 'University of Notre Dame', 'WR', 2, 'Chase Claypool'),
-  createData('Henry Davis', 'University of Southern California', 'WR', 4, 'Robert Woods'),
-  createData('Isaac Wilson', 'Stanford University', 'WR', 3, 'JJ Arcega-Whiteside'),
-  createData('Jack Thomas', 'University of Michigan', 'WR', 4, 'Donovan Peoples-Jones'),
-  createData('Kevin Young', 'University of Georgia', 'WR', 2, 'A.J. Green'),
-  createData('Liam Carter', 'Texas A&M', 'WR', 1, 'Mike Evans'),
-  createData('Mason Hill', 'University of South Carolina', 'WR', 3, 'Deebo Samuel'),
-  createData('Nathan Baker', 'TCU', 'WR', 4, 'Jalen Reagor'),
-  createData('Oscar Adams', 'University of California, Berkeley', 'WR', 2, 'DeSean Jackson'),
-  createData('Patrick Scott', 'University of Mississippi', 'WR', 1, 'DK Metcalf'),
-  createData('Quinn Lewis', 'University of Louisville', 'WR', 3, 'DeVante Parker'),
-  createData('Ryan Martinez', 'University of Colorado', 'WR', 4, 'Laviska Shenault Jr.'),
-  createData('Samuel Green', 'University of Washington', 'WR', 2, 'John Ross')
+  
+  createData('Loading...', 'Loading...', 'Loading...', 'Loading...', 'Loading...')
 ];
 
+
+function createData(name, school, position, playerclass) {
+  return { name, school, position, playerclass };
+}
+
 export default function players() {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [rows, setRows] = useState(initialRows.slice(0, initialRows.length));
-    useEffect(() => {
-      console.log(rows)
-    }, []);
-    const handleSearchChange = (event) => {
-      if (event.target.value != "") {
-        setRows(rows.filter((row) => row.name.startsWith(event.target.value)));
-      } else {
-        setRows(initialRows)
-      }
-      setSearchQuery(event.target.value);
-    };
+  const router = useRouter();
+  const { search } = router.query;
+  const [allRows, setAllRows] = useState([]); 
+  const [rows, setRows] = useState([]); 
+
+  useEffect(() => {
+    // fetch
+    fetch('/api/mass_fetch')
+      .then(response => response.json())
+      .then(data => {
+        const formattedData = data.map(player => createData(player.name, player.college, player.position.toUpperCase(), player.class));
+        setAllRows(formattedData); 
+        setRows(formattedData); 
+      })
+      .catch(error => console.error('Error fetching player data:', error));
+  }, []);
+
+  useEffect(() => {
+    if (search) {
+      const searchLowercase = search.toLowerCase();
+      const filteredRows = allRows.filter(row => row.name.toLowerCase().includes(searchLowercase));
+      setRows(filteredRows);
+    } else {
+      setRows(allRows);
+    }
+  }, [search, allRows]);
+
     return (
-        <div>
-          <NavBar searchQuery={searchQuery} handleSearchChange={handleSearchChange} />
-          <div style={{width: "80%", marginLeft: "10%", textAlign: "center" }}>
-            <h1><LinearGradient gradient={["to right", "#f54242 ,#b50b02"]}>Player</LinearGradient> Rankings</h1>
-            <SortableTable height="75vh" rows={rows} setRows={setRows}/>
-          </div>
+      <div>
+        <NavBar/>
+        <div style={{width: "80%", marginLeft: "10%", textAlign: "center" }}>
+          <h1><LinearGradient gradient={["to right", "#f54242 ,#b50b02"]}>Player Statistics</LinearGradient></h1>
+          <SortableTable height="75vh" rows={rows} setRows={setRows}/>
         </div>
-      );
+      </div>
+    );
 }

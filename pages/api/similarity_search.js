@@ -92,6 +92,7 @@ export default async function handler(req, res) {
         obj[posMapping[position]] = parseFloat(doc.nfl)
         out.push(obj)
     });
+    await client.close();
     res.status(200).json({
         players: out
     })

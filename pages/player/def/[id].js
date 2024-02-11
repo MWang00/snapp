@@ -11,7 +11,7 @@ const colors = ["#e739d5", "#e74646", "#e7a539", "#49cb3c", "#983df0"]
 
 export default function PlayerView() {
     const router = useRouter()
-    const [player, setPlayer] = useState({});
+    const [player, setPlayer] = useState({ stats: new Array(6) });
     const [data, setData] = useState([]);
     const [similarPlayers, setSimilarPlayers] = useState([]);
     const [btnState, setBtnState] = useState([false, false, false, false, false])
@@ -129,16 +129,16 @@ export default function PlayerView() {
             <h1 style={{ paddingTop: "5%", textAlign: "center"  }}>NFL Stats</h1>
               <Grid container style={{ textAlign: "center", paddingRight: "5%"}}>
               <Grid item xs={6}>
-              <Speedometer name={"DR"} number={player.dr} />
+              <Speedometer name={"TT"} number={player.stats[0]} max={60}/>
               </Grid>
               <Grid item xs={6}>
-              <Speedometer name={"DR"} number={player.dr} />
+              <Speedometer name={"S"} number={player.stats[1]} max={5}/>
               </Grid>
               <Grid item xs={6} style={{paddingTop:"9%"}}>
-              <Speedometer name={"DR"} number={player.dr} />
+              <Speedometer name={"INT"} number={player.stats[2]} max={10} />
               </Grid>
               <Grid item xs={6} style={{paddingTop:"9%"}}>
-              <Speedometer name={"DR"} number={player.dr} />
+              <Speedometer name={"FF"} number={player.stats[3]} max={8}/>
               </Grid>
               </Grid>
               </div>
