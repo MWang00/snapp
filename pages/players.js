@@ -32,7 +32,7 @@ const initialRows = [
   createData('Samuel Green', 'University of Washington', 'WR', 2, 'John Ross')
 ];
 
-export default function Players() {
+export default function players() {
   const router = useRouter();
   const { search } = router.query;
   const [rows, setRows] = useState(initialRows);

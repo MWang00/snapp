@@ -106,7 +106,11 @@ export function SortableTable({height, rows, setRows}) {
                 <TableCell style={{ textAlign: 'center' }}>{row.school}</TableCell>
                 <TableCell style={{ textAlign: 'center' }}>{row.position}</TableCell>
                 <TableCell style={{ textAlign: 'center' }}>{row.score}</TableCell>
-                <TableCell style={{ textAlign: 'center' }}>{row.similarplayer}</TableCell>
+                <TableCell style={{ textAlign: 'center' }}>
+                  <a href={`/player/${row.position.toLowerCase()}/${row.similarplayer}`} style={{ texTableCellecoration: 'none', color: 'inherit' }}>
+                    {row.similarplayer}
+                  </a>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
