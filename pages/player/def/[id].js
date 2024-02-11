@@ -16,7 +16,6 @@ export default function PlayerView() {
     const [similarPlayers, setSimilarPlayers] = useState([]);
     const [btnState, setBtnState] = useState([false, false, false, false, false])
     const [colorState, setColorState] = useState(["black", "black", "black", "black", "black"])
-    const [btnBg, setBtnBg] = useState(["transparent", "transparent", "transparent", "transparent", "transparent"])
     const captions = {
       // columns
       Solo: 'Solo',
@@ -45,18 +44,6 @@ export default function PlayerView() {
         setColorState(tmp)
       }
       setBtnState(btnState);
-    }
-
-    const handleMouseEnter = (e) => {
-        const tmp = [...btnBg];
-        tmp[parseInt(e.target.id)] = "#e6e3e3"
-        setBtnBg(tmp);
-    } 
-
-    const handleMouseLeave = (e) => {
-        const tmp = [...btnBg];
-        tmp[parseInt(e.target.id)] = "transparent"
-        setBtnBg(tmp)
     }
 
     useEffect(() => {
@@ -145,7 +132,7 @@ export default function PlayerView() {
               {
                 similarPlayers.map((p, i) => (
                   <div style={{marginTop: "2.5%", marginBottom: "2.5%", marginLeft: "8%"}} key={`div${i}`}>
-                  <button className={styles.playerButton} key={`button${i}`} id={i} style={{color: colorState[i], backgroundColor: "transparent", borderStyle: "solid", borderColor: colorState[i], backgroundColor: btnBg[i]}} onClick={onSimilarPlayerClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                  <button className={styles.playerButton} key={`button${i}`} id={i} style={{color: colorState[i], cursor: 'pointer', backgroundColor: "transparent", borderStyle: "solid", borderColor: colorState[i] }} onClick={onSimilarPlayerClick}>
                     {p.name}
                   </button>
                   </div>

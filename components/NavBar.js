@@ -24,7 +24,7 @@ export function NavBar({ router }) {
       {/* logo to direct to the landing page */}
       <Grid xs={2} style={{height: '50px'}}>
         <a href={"/"}>
-            <img src="https://media.discordapp.net/attachments/1162065201152139294/1206072179209543690/snapp.png?ex=65daad3f&is=65c8383f&hm=36866481f9d59dce824e06d88b9f48d41f023add4ba90f400f6a31315785b46f&=&format=webp&quality=lossless&width=2268&height=664" alt="SNAPP" />
+        <img src="https://media.discordapp.net/attachments/1162065201152139294/1206072179209543690/snapp.png?ex=65daad3f&is=65c8383f&hm=36866481f9d59dce824e06d88b9f48d41f023add4ba90f400f6a31315785b46f&=&format=webp&quality=lossless&width=2268&height=664" alt="SNAPP" />
         </a>
       </Grid>
     

@@ -12,7 +12,7 @@ export default function players() {
           <NavBar router={router}/>
           <div style={{width: "80%", marginLeft: "10%", textAlign: "center" }}>
             <h1><LinearGradient gradient={["to right", "#f54242 ,#b50b02"]}>Player</LinearGradient> Rankings</h1>
-            <SortableTable />
+            <SortableTable height="75vh"/>
           </div>
         </div>
       );
