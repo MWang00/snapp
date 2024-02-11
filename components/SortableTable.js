@@ -89,9 +89,10 @@ export function SortableTable({height, rows, setRows}) {
           <TableHead>
             <TableRow>
               <TableCell style={getColumnStyle('name')} onClick={() => handleSort('name')}>Player<SortIndicator column="name" /></TableCell>
-              <TableCell style={getColumnStyle('school')} onClick={() => handleSort('school')}>School<SortIndicator column="school" /></TableCell>
               <TableCell style={getColumnStyle('position')} onClick={() => handleSort('position')}>Position<SortIndicator column="position" /></TableCell>
-              <TableCell style={getColumnStyle('score')} onClick={() => handleSort('score')}>Draftability<SortIndicator column="score" /></TableCell>
+              <TableCell style={getColumnStyle('school')} onClick={() => handleSort('school')}>School<SortIndicator column="school" /></TableCell>
+              <TableCell style={getColumnStyle('class')} onClick={() => handleSort('class')}>Class<SortIndicator column="class" /></TableCell>
+              <TableCell style={getColumnStyle('score')} onClick={() => handleSort('score')}>Score<SortIndicator column="score" /></TableCell>
               <TableCell style={getColumnStyle('similarplayer')} onClick={() => handleSort('similarplayer')}>Similar Player<SortIndicator column="similarplayer" /></TableCell>
             </TableRow>
           </TableHead>
@@ -103,8 +104,9 @@ export function SortableTable({height, rows, setRows}) {
                     {row.name}
                   </a>
                 </TableCell>
-                <TableCell style={{ textAlign: 'center' }}>{row.school}</TableCell>
                 <TableCell style={{ textAlign: 'center' }}>{row.position}</TableCell>
+                <TableCell style={{ textAlign: 'center' }}>{row.school}</TableCell>
+                <TableCell style={{ textAlign: 'center' }}>{row.class}</TableCell>
                 <TableCell style={{ textAlign: 'center' }}>{row.score}</TableCell>
                 <TableCell style={{ textAlign: 'center' }}>
                   <a href={`/player/${row.position.toLowerCase()}/${row.similarplayer}`} style={{ texTableCellecoration: 'none', color: 'inherit' }}>
