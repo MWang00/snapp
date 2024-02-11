@@ -109,7 +109,7 @@ export default function PlayerView() {
         <Grid container spacing={2} style={{paddingLeft: "7%", marginTop: "2%"}}>
           <Grid item xs={3} style={{ borderRadius: "20px", boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white", marginTop: "1%" }}>
           <div style={{ marginLeft: "10%" }}>
-          <h1>{player.name}</h1>
+          <h1 style={{textAlign: "center", marginLeft: "-18%"}}>{player.name}</h1>
           <img src={player.src} width={225} style={{borderRadius: "5px", borderStyle: "solid", borderColor: "lightgray"}}></img>
           <h3>Position: <span style={{fontWeight: "normal"}}>{player.position}</span></h3>
           <h3>College: <span style={{fontWeight: "normal"}}>{player.college}</span></h3>
