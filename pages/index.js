@@ -6,6 +6,7 @@ import { SearchBar } from '../components/SearchBar';
 import styles from '../styles/Home.module.css';
 import {LinearGradient} from "react-text-gradients"
 import { Button } from '@mui/joy';
+import { useEffect } from 'react';
 
 // const [anchorEl, setAnchorEl] = React.useState(null);
 // const open = Boolean(anchorEl);
@@ -21,21 +22,38 @@ import { Button } from '@mui/joy';
 //   },
 // });
 
+function createData(name, school, position, score, similarplayer) {
+  return { name, school, position, score, similarplayer };
+}
+
+const initialRows = [
+  createData('John Doe', 'University of Alabama', 'WR', 1, 'Julio Jones'),
+  createData('Alex Smith', 'Ohio State University', 'WR', 2, 'Michael Thomas'),
+  createData('Brian Taylor', 'Clemson University', 'WR', 1, 'DeAndre Hopkins'),
+  createData('Chris Johnson', 'University of Florida', 'WR', 3, 'Emmanuel Sanders'),
+  createData('Derek Allen', 'LSU', 'WR', 2, 'Jarvis Landry'),
+  createData('Evan White', 'University of Oklahoma', 'WR', 1, 'CeeDee Lamb'),
+  createData('Frank Brown', 'Penn State', 'WR', 3, 'Chris Godwin'),
+  createData('George King', 'University of Notre Dame', 'WR', 2, 'Chase Claypool'),
+  createData('Henry Davis', 'University of Southern California', 'WR', 4, 'Robert Woods'),
+  createData('Isaac Wilson', 'Stanford University', 'WR', 3, 'JJ Arcega-Whiteside'),
+  createData('Jack Thomas', 'University of Michigan', 'WR', 4, 'Donovan Peoples-Jones'),
+  createData('Kevin Young', 'University of Georgia', 'WR', 2, 'A.J. Green'),
+  createData('Liam Carter', 'Texas A&M', 'WR', 1, 'Mike Evans'),
+  createData('Mason Hill', 'University of South Carolina', 'WR', 3, 'Deebo Samuel'),
+  createData('Nathan Baker', 'TCU', 'WR', 4, 'Jalen Reagor'),
+  createData('Oscar Adams', 'University of California, Berkeley', 'WR', 2, 'DeSean Jackson'),
+  createData('Patrick Scott', 'University of Mississippi', 'WR', 1, 'DK Metcalf'),
+  createData('Quinn Lewis', 'University of Louisville', 'WR', 3, 'DeVante Parker'),
+  createData('Ryan Martinez', 'University of Colorado', 'WR', 4, 'Laviska Shenault Jr.'),
+  createData('Samuel Green', 'University of Washington', 'WR', 2, 'John Ross')
+];
+
 export default function Home() {
-
-  // const handleProfileMenuOpen = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-
-  // const handleMenuClose = () => {
-  //   setAnchorEl(null);
-  // };
-  // const handleClick = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
+  const [rows, setRows] = useState(initialRows.slice(0, 5));
+  useEffect(() => {
+    console.log(rows)
+  }, []);
 
   return (
     <div>
@@ -53,7 +71,7 @@ export default function Home() {
       
       <div style={{marginLeft: "20%", marginRight: "20%"}}>
         <h3 style={{marginLeft: "3%", marginTop: "4%"}}>Top Players</h3>
-        <SortableTable height="28vh" number="5"/>
+        <SortableTable height="28vh" rows={rows} setRows={setRows}/>
       
         <div style={{marginTop: "2%", textAlign: "center"}}>
           <a href="./players" style={{marginLeft: "auto", marginRight: "auto", display:"block"}}>
