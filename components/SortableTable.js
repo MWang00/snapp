@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Table from '@mui/joy/Table';
 import {Paper} from '@mui/material';
 import { TableBody, TableHead, TableRow, TableCell } from '@mui/material';
-// import styles from '../styles/SortableTable.module.css';
 
 function createData(name, school, position, score, similarplayer) {
   return { name, school, position, score, similarplayer };
