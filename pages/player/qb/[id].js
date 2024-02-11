@@ -116,9 +116,10 @@ export default function PlayerView() {
           <Grid item xs={3} style={{ borderRadius: "20px", boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white", marginTop: "1%" }}>
           <div style={{ marginLeft: "10%" }}>
           <h1 style={{textAlign: "center", marginLeft: "-18%"}}>{player.name}</h1>
-          <img src={player.src} width={225} style={{borderRadius: "5px", borderStyle: "solid", borderColor: "lightgray"}}></img>
+          <img src={player.src} width={225} style={{borderRadius: "10px", borderStyle: "solid", borderColor: "black", borderWidth: "2px", marginLeft: "3px"}}></img>
           <h3>Position: <span style={{fontWeight: "normal"}}>{player.position}</span></h3>
           <h3>College: <span style={{fontWeight: "normal"}}>{player.college}</span></h3>
+          <h3>Class: <span style={{fontWeight: "normal"}}>{player.college}</span></h3>
           </div>  
           </Grid>
           <Grid item xs={5.5}>
@@ -132,7 +133,7 @@ export default function PlayerView() {
           </Grid>
           <Grid item xs={2.5}>
             <div style={{ borderRadius: "20px", boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white", paddingBottom: "7%", paddingTop: "2%", paddingLeft:"2%" }}>
-              <h2 style={{marginLeft: "5%"}}>Similar Players</h2>
+              <h2 style={{textAlign: "center"}}>Similar Players</h2>
               {
                 similarPlayers.map((p, i) => (
                   <div style={{marginTop: "2.5%", marginBottom: "2.5%", marginLeft: "8%"}} key={`div${i}`}>
