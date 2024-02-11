@@ -18,11 +18,12 @@ export default function PlayerView() {
     const [colorState, setColorState] = useState(["black", "black", "black", "black", "black"])
     const captions = {
       // columns
-      Solo: 'Solo TKLs',
-      Asst: 'Asst TKLs',
-      Sacks: 'Sacks',
-      Interceptions: 'Interceptions',
-      FF: "FrcdFUM"
+      ttpg: 'Tot TKLs',
+      spg: 'Sacks ',
+      ipg: 'Int',
+      ffpg: 'FrdcFUM',
+      pdpg: "PassDEF",
+      tflpg: "TKLoss"
     };
 
     const onSimilarPlayerClick = (e) => {
@@ -48,59 +49,40 @@ export default function PlayerView() {
 
     useEffect(() => {
         const splitUri = window.location.href.split("/")
-        const uuid = splitUri[splitUri.length - 1]
+        const uuid = splitUri[splitUri.length - 1].replace("%20", " ")
         // fetch player data here
-        const player = {
-            name: "Micah Parsons",
-            stats: [52, 57, 5.0, 0, 4],
-            inNfl: true,
-            dr: 120,
-            position: "DEF",
-            src: "https://www.pro-football-reference.com/req/20230307/images/headshots/ParsMi00_2023.jpg",
-            college: "Penn St"
-        }
+        fetch("/api/get_player", {
+          method: "POST",
+          body: JSON.stringify({
+            name: uuid,
+            position: "def"
+          })
+        }).then((res) => res.json().then((player) => {
+          console.log(player)
+            setPlayer(player)
+            const playerObj = parsePlayer(player);
+            console.log(playerObj)
+          const data = [
+            {
+              data: playerObj,
+              meta: { color: 'blue' }
+            }
+          ];
+          setData(data)
 
-        setPlayer(player)
-        const playerObj = parsePlayer(player);
-
-        const data = [
-          {
-            data: playerObj,
-            meta: { color: 'blue' }
-          }
-        ];
-        setData(data)
-        // Fetch similar players here
-        const sp = [
-          {
-              name: "Larry Fitzgerald",
-              stats: [52, 57, 5.0, 0, 4],
-              dr: 120
-          },
-          {
-            name: "Patrick Mahomes",
-            stats: [52, 57, 5.0, 0, 4],
-            dr: 120
-        },
-        {
-            name: "Eli Manning",
-            stats: [52, 57, 5.0, 0, 4],
-            dr: 120
-        },
-        {
-          name: "Tom Brady",
-          stats: [52, 57, 5.0, 0, 4],
-          dr: 120
-        },
-        {
-          name: "Ben Rothlisberger",
-          stats: [52, 57, 5.0, 0, 4],
-          dr: 120
-        }
-      ];
-
-      setSimilarPlayers(sp);
-      console.log(similarPlayers)
+          fetch("/api/similarity_search", {
+            method: "POST",
+            body: JSON.stringify({
+              playerName: player.name,
+              position: "def"
+            })
+          }).then((res) => res.json().then((tmp) => {
+            const sp = tmp.players.slice(1, tmp.length)
+            setSimilarPlayers(sp);
+            player.position = player.position.toUpperCase();
+            setPlayer(player)
+          }))
+        }))
     }, []);
 
 
@@ -115,7 +97,7 @@ export default function PlayerView() {
           <img src={player.src} width={225} style={{borderRadius: "10px", borderStyle: "solid", borderColor: "black", borderWidth: "2px"}}></img>
           <h3>Position: <span style={{fontWeight: "normal"}}>{player.position}</span></h3>
           <h3>College: <span style={{fontWeight: "normal"}}>{player.college}</span></h3>
-          <h3>Class: <span style={{fontWeight: "normal"}}>{player.college}</span></h3>
+          <h3>Class: <span style={{fontWeight: "normal"}}>{player.class}</span></h3>
           </div>  
           </Grid>
           <Grid item xs={5.5}>
@@ -167,7 +149,7 @@ export default function PlayerView() {
 
   function parsePlayer(player) {
     let dataAvg = player.stats
-    const playerCategories = [{ name: "Solo", scale: 104 }, { name: "Asst", scale: 322 }, { name: "Sacks", scale: 20 }, { name: "Interceptions", scale: 27 }, { name: "FF", scale: 14 }];
+    const playerCategories = [{ name: "ttpg", scale: 60 }, { name: "spg", scale: 5 }, { name: "ipg", scale: 10 }, { name: "ffpg", scale: 8 }, { name: "pdpg", scale: 2*12 }, { name: "tflpg", scale: 15 }];
 
     const playerObj = {};
 

@@ -1,16 +1,16 @@
 import {useState, useEffect} from "react";
 import RadarChart from 'react-svg-radar-chart';
 import 'react-svg-radar-chart/build/css/index.css'
-import { Grid} from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 import styles from "../../../styles/Home.module.css"
 import { NavBar } from "../../../components/NavBar";
-import { Speedometer } from "../../../components/SpeedometerQB";
+import { Speedometer } from "../../../components/Speedometer";
 import { useRouter } from "next/router";
 
 const colors = ["#e739d5", "#e74646", "#e7a539", "#49cb3c", "#983df0"]
 
 export default function PlayerView() {
-    const router = useRouter();
+    const router = useRouter()
     const [player, setPlayer] = useState({});
     const [data, setData] = useState([]);
     const [similarPlayers, setSimilarPlayers] = useState([]);
@@ -18,11 +18,12 @@ export default function PlayerView() {
     const [colorState, setColorState] = useState(["black", "black", "black", "black", "black"])
     const captions = {
       // columns
-      Attempts: 'Attempts',
-      Completions: 'Completions',
-      Interceptions: 'Interceptions',
-      TD: 'TD',
-      Yards: 'Yards'
+      Receptions: 'Receptions',
+      ReceivingYards: 'Receiving Yards',
+      ReceivingTD: 'Receiving TD',
+      Touches: 'Rush Att',
+      RushingYards: 'Rushing Yards',
+      RushingTD: 'Rushing TD',
     };
 
     const onSimilarPlayerClick = (e) => {
@@ -49,13 +50,12 @@ export default function PlayerView() {
     useEffect(() => {
       const splitUri = window.location.href.split("/")
       const uuid = splitUri[splitUri.length - 1].replace("%20", " ")
-      console.log(splitUri[splitUri.length - 1].replace("%20", " "))
       // fetch player data here
       fetch("/api/get_player", {
         method: "POST",
         body: JSON.stringify({
           name: uuid,
-          position: "qb"
+          position: "rb"
         })
       }).then((res) => res.json().then((player) => {
         console.log(player)
@@ -74,7 +74,7 @@ export default function PlayerView() {
           method: "POST",
           body: JSON.stringify({
             playerName: player.name,
-            position: "qb"
+            position: "rb"
           })
         }).then((res) => res.json().then((tmp) => {
           const sp = tmp.players.slice(1, tmp.length)
@@ -84,6 +84,7 @@ export default function PlayerView() {
         }))
       }))
   }, []);
+
 
 
     return(
@@ -97,7 +98,7 @@ export default function PlayerView() {
           <h3>Position: <span style={{fontWeight: "normal"}}>{player.position}</span></h3>
           <h3>College: <span style={{fontWeight: "normal"}}>{player.college}</span></h3>
           <h3>Class: <span style={{fontWeight: "normal"}}>{player.class}</span></h3>
-          </div>  
+          </div>
           </Grid>
           <Grid item xs={5.5}>
             <div style={{ borderRadius: "20px", boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white", paddingLeft: "7.5%"}}>
@@ -124,15 +125,23 @@ export default function PlayerView() {
                 ))
               }
             </div>
-            <div style={{borderRadius: '20px', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white", paddingBottom: "5%", marginTop: "2%"}}>
-            <h1 style={{paddingTop: "5%", textAlign: "center" }}>NFL Stats</h1>
-
-            <Grid container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: "5%" }}>
-              <Grid item xs={12} sm={6} style={{ display: 'flex', justifyContent: 'center' }}>
-                <Speedometer name={"QBR"} number={player.qbr} max={158.3}/>
+            <div style={{ borderRadius: '20px', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white", paddingBottom: "5%", marginTop: "2%"}}>
+            <h1 style={{ paddingTop: "5%", textAlign: "center" }}>NFL Stats</h1>
+              <Grid container style={{ textAlign: "center", paddingRight: "5%" }}>
+              <Grid item xs={6}>
+              <Speedometer name={"RR"} number={player.rr} />
               </Grid>
-            </Grid>
-            </div>
+              <Grid item xs={6}>
+              <Speedometer name={"RR"} number={player.rr} />
+              </Grid>
+              <Grid item xs={6} style={{paddingTop:"9%"}}>
+              <Speedometer name={"RR"} number={player.rr} />
+              </Grid>
+              <Grid item xs={6} style={{paddingTop:"9%"}}>
+              <Speedometer name={"RR"} number={player.rr} />
+              </Grid>
+              </Grid>
+              </div>
           </Grid>
         </Grid>
         </div>
@@ -141,15 +150,15 @@ export default function PlayerView() {
   function parsePlayer(player) {
     let dataAvg = player.stats;
 
-    dataAvg = dataAvg.map((val) => val / player.stats.length);
-    const playerCategories = [{ name: "Completions", scale: 300/6 }, { name: "Attempts", scale: 450/6 }, { name: "Yards", scale: 3800/6 }, { name: "TD", scale: 32/6 }, { name: "Interceptions", scale: 12/6}];
+    const playerCategories = [{ name: "RushingYards", scale: 1450 }, { name: "Touches", scale: 225 }, { name: "RushingTD", scale: 20 }, { name: "Receptions", scale: 30 }, { name: "ReceivingYards", scale: 300 }, { name: "ReceivingTD", scale: 3 }];
 
     const playerObj = {};
 
     playerCategories.forEach((category, i) => {
       const { name, scale } = category;
-      playerObj[name] = dataAvg[i] / scale;
+      playerObj[name] = Math.max(dataAvg[i] / scale, 0);
     });
+    console.log(playerObj)
     return playerObj;
   }
 }

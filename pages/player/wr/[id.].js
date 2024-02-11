@@ -48,21 +48,19 @@ export default function PlayerView() {
     }
 
     useEffect(() => {
-        const splitUri = window.location.href.split("/")
-        const uuid = splitUri[splitUri.length - 1]
-        // fetch player data here
-        const player = {
-            name: "Michael Pittman",
-            stats: [101, 1275, 11, 1, 9, 11],
-            inNfl: true,
-            rr: 120,
-            src: "https://www.pro-football-reference.com/req/20230307/images/headshots/PittMi01_2023.jpg",
-            position: "WR",
-            college: "USC"
-        }
-
-        setPlayer(player)
-        const playerObj = parsePlayer(player);
+      const splitUri = window.location.href.split("/")
+      const uuid = splitUri[splitUri.length - 1].replace("%20", " ")
+      // fetch player data here
+      fetch("/api/get_player", {
+        method: "POST",
+        body: JSON.stringify({
+          name: uuid,
+          position: "wr"
+        })
+      }).then((res) => res.json().then((player) => {
+        console.log(player)
+          setPlayer(player)
+          const playerObj = parsePlayer(player);
 
         const data = [
           {
@@ -71,38 +69,21 @@ export default function PlayerView() {
           }
         ];
         setData(data)
-        // Fetch similar players here
-        const sp = [
-          {
-              name: "Larry Fitzgerald",
-              stats: [69, 1005, 12, 0, 0, 0],
-              rr: 120
-          },
-          {
-            name: "Patrick Mahomes",
-            stats: [101, 1275, 11, 1, 9, 11],
-            rr: 120
-        },
-        {
-            name: "Eli Manning",
-            stats: [101, 1275, 11, 1, 9, 11],
-            rr: 120
-        },
-        {
-          name: "Tom Brady",
-          stats: [101, 1275, 11, 1, 9, 11],
-          rr: 120
-        },
-        {
-          name: "Ben Rothlisberger",
-          stats: [101, 1275, 11, 1, 9, 11],
-          rr: 120
-        }
-      ];
 
-      setSimilarPlayers(sp);
-      console.log(similarPlayers)
-    }, []);
+        fetch("/api/similarity_search", {
+          method: "POST",
+          body: JSON.stringify({
+            playerName: player.name,
+            position: "wr"
+          })
+        }).then((res) => res.json().then((tmp) => {
+          const sp = tmp.players.slice(1, tmp.length)
+          setSimilarPlayers(sp);
+          player.position = player.position.toUpperCase();
+          setPlayer(player)
+        }))
+      }))
+  }, []);
 
 
 
@@ -116,7 +97,7 @@ export default function PlayerView() {
           <img src={player.src} width={225} style={{borderRadius: "10px", borderStyle: "solid", borderColor: "black", borderWidth: "2px" }}></img>
           <h3>Position: <span style={{fontWeight: "normal"}}>{player.position}</span></h3>
           <h3>College: <span style={{fontWeight: "normal"}}>{player.college}</span></h3>
-          <h3>Class: <span style={{fontWeight: "normal"}}>{player.college}</span></h3>
+          <h3>Class: <span style={{fontWeight: "normal"}}>{player.class}</span></h3>
           </div>
           </Grid>
           <Grid item xs={5.5}>
@@ -169,7 +150,7 @@ export default function PlayerView() {
   function parsePlayer(player) {
     let dataAvg = player.stats;
 
-    const playerCategories = [{ name: "Receptions", scale: 158 }, { name: "ReceivingYards", scale: 1640 }, { name: "ReceivingTD", scale: 27 }, { name: "Touches", scale: 450 }, { name: "RushingYards", scale: 2628 }, { name: "RushingTD", scale: 37 }];
+    const playerCategories = [{ name: "RushingYards", scale: 50 }, { name: "Touches", scale: 10 }, { name: "RushingTD", scale: 1 }, { name: "Receptions", scale: 100 }, { name: "ReceivingYards", scale: 1450 }, { name: "ReceivingTD", scale: 13 }];
 
     const playerObj = {};
 

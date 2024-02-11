@@ -22,7 +22,7 @@ const colMappping = {
 }
 
 export default async function handler(req, res) {
-    const { name, position } = req.body;
+    const { name, position } = JSON.parse(req.body);
     const client = new MongoClient("mongodb+srv://root:YvvJtMwFiFJRC0OU@football-player-mapping.tke63u1.mongodb.net/?retryWrites=true&w=majority");
     await client.connect();
     const database = client.db("football-player-mappings");
@@ -40,9 +40,10 @@ export default async function handler(req, res) {
         name: doc.name,
         src: doc.img,
         college: doc.college,
-        class: doc.class
+        class: doc.class,
+        position: position
     }
-    obj[posMapping[position]] = parseFloat(doc.nfl);
+
 
     res.status(200).json(obj); 
 }
