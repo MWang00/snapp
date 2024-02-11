@@ -5,7 +5,7 @@ const dimMapping = {
     "qb": 5,
     "rb": 6,
     "wr": 6,
-    "def": 8
+    "def": 6
 }
 
 const posMapping = {
@@ -82,12 +82,17 @@ export default async function handler(req, res) {
         doc.embedding = handleAvg(doc.embedding, dimMapping[position]); 
         const obj = {
             stats: doc.embedding,
-            name: doc.name
+            name: doc.name,
+            src: doc.img,
+            college: doc.college,
+            class: doc.class
         }
         obj[posMapping[position]] = parseFloat(doc.nfl)
         out.push(obj)
     });
-    res.status(200).json(out)
+    res.status(200).json({
+        players: out
+    })
 }
 
 

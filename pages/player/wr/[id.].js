@@ -108,7 +108,7 @@ export default function PlayerView() {
 
     return(
         <div>
-        <NavBar router={router}/>
+        <NavBar />
         <Grid container spacing={2} style={{paddingLeft: "7%", marginTop: "2%"}}>
           <Grid item xs={3} style={{ borderRadius: "20px", boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white", marginTop: "1%" }}>
           <div style={{ marginLeft: "10%" }}>
