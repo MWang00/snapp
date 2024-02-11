@@ -32,15 +32,16 @@ export function SearchBar({ onSearch }) {
       }}
     >
       <Input
-        placeholder="Type in here…"
-        variant="solid"
+        placeholder="Search player"
+        variant="outlined"
         value={searchQuery}
         onChange={handleSearchChange}
         sx={{ flexGrow: 1 }}
       />
-      <IconButton type="submit" aria-label="search" color="primary">
+      <IconButton type="submit" aria-label="search">
         <SearchIcon />
       </IconButton>
+      
     </Box>
   );
 }

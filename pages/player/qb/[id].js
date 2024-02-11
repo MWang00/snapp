@@ -56,7 +56,7 @@ export default function PlayerView() {
         const player = {
           name: "Peyton Manning",
           stats: [[89, 144, 1141, 11, 6]],
-          qbr: 120,
+          qbr: 130,
           position: "QB",
           college: "Tennesse",
           src: "https://www.pro-football-reference.com/req/20230307/images/headshots/MannPe00_2019.jpg"
@@ -156,20 +156,21 @@ export default function PlayerView() {
                 ))
               }
             </div>
-            <div style={{ borderStyle:"solid", borderColor: "lightgray", borderRadius: "5px", backgroundColor: "white", paddingBottom: "5%", marginTop: "2%"}}>
-            <h1 style={{ marginLeft: "5%" }}>NFL Stats</h1>
-              <Grid container style={{marginLeft: "5%"}}>
+            <div style={{borderRadius: '20px', boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)', backgroundColor: "white", paddingBottom: "5%", marginTop: "2%"}}>
+            <h1 style={{paddingTop: "5%", textAlign: "center" }}>NFL Stats</h1>
+
+              <Grid container style={{textAlign: "center", paddingRight: "5%" }}>
               <Grid item xs={6}>
-              <Speedometer name={"QBR"} number={player.qbr} />
+              <Speedometer name={"QBR"} number={player.qbr} max={158.3}/>
               </Grid>
               <Grid item xs={6}>
-              <Speedometer name={"QBR"} number={player.qbr} />
+              <Speedometer name={"QBR"} number={player.qbr} max={158.3}/>
               </Grid>
               <Grid item xs={6} style={{paddingTop:"9%"}}>
-              <Speedometer name={"QBR"} number={player.qbr} />
+              <Speedometer name={"QBR"} number={player.qbr} max={158.3}/>
               </Grid>
               <Grid item xs={6} style={{paddingTop:"9%"}}>
-              <Speedometer name={"QBR"} number={player.qbr} />
+              <Speedometer name={"QBR"} number={player.qbr} max={158.3}/>
               </Grid>
               </Grid>
               </div>
