@@ -139,7 +139,7 @@ export default function PlayerView() {
               <Speedometer name={"Receiving TD"} number={player.stats[5]} max={15}/>
               </Grid>
               <Grid item xs={6} style={{paddingTop:"9%"}}>
-              <Speedometer name={"Fantasy Points"} number={0.1*player.stats[4]+0.5*player.stats[3]+6*player.stats[5]} />
+              <Speedometer name={"Fantasy Points"} number={Math.round(0.1*player.stats[4]+0.5*player.stats[3]+6*player.stats[5])} max={200}/>
               </Grid>
               </Grid>
               </div>
